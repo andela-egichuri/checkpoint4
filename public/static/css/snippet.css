@@ -2,12 +2,32 @@ html,
 body {
   height: 100%;
 }
-.bootshape.login-form {
-  height: 100%;
-  background: url('../img/background.jpeg');
-  background-size: cover;
-  font-family: 'Balthazar', serif;
+
+.landingbg {
+    width: 100%;
+    height: 100%;
+    float: left;
+    background: #000;
+    opacity: 0.6;
+    filter: alpha(opacity=70);
+    position: absolute;
+    z-index: 0;
+    top: 0;
 }
+
+#wrapper {
+    background: url(../img/background.jpeg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    color: #fff;
+}
+
 .bootshape.login-form h1 {
   font-family: 'Stalemate', cursive;
 }
@@ -15,9 +35,10 @@ body {
   color: #fec000;
 }
 .bootshape.login-form .login-popup-wrap {
-  position: relative;
-  top: 80px;
-  left: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: #aeaeae;
   min-width: 300px;
 }
@@ -28,12 +49,13 @@ body {
   -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-  background: #fff;
+  background: #fafafa;
   border-radius: 3px;
   padding: 20px 40px;
+  opacity: 0.8;
 }
 .bootshape.login-form .title {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-size: 48px;
   color: #333333;
 }
@@ -57,7 +79,7 @@ body {
 .bootshape.login-form .divider-label {
   display: inline-block;
   padding: 6px;
-  background: #fff;
+  background: #fafafa;
   position: relative;
   top: -16px;
 }
