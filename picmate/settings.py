@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# 35c342cfcc13e08142af2cedf48d6788
+# 1049031478473797
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,8 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'django.contrib.sites',
+    'app',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 ]
+
+SITE_ID = 2
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +79,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'picmate.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -88,7 +110,6 @@ if os.getenv('TRAVIS_BUILD', None):
     }
 else:
     DATABASES['default'] = dj_database_url.config()
-
 
 
 # Password validation
