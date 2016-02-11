@@ -12,7 +12,7 @@ def index(request):
     return render(request, 'index.html', content)
 
 
-@login_required
+# @login_required
 def dashboard(request):
     """Application dashboard"""
     return render(request, 'dashboard.html', {})

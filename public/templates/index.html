@@ -3,7 +3,7 @@
 {% block content %}
 <div class="landingbg">
 </div>
-<div id="wrapper" class="container">
+<div id="bg" class="container">
   <div class="bootshape login-form">
     <div class="col-sm-6 col-md-5 col-lg-4 text-center login-popup-wrap">
       <div class="login-popup">
@@ -15,7 +15,7 @@
         <div class="divider-label">Login to get started</div>
         <div class="row">
           {% load socialaccount %}
-          <a href="{% provider_login_url "facebook" method="oauth2" %}"><img src="{% static 'img/fb_login.png' %}"></a>
+          <a href='{% provider_login_url "facebook" method="oauth2" %}'><img src="{% static 'img/fb_login.png' %}"></a>
         </div>
       </div>
       <div class="login-popup">
@@ -23,6 +23,5 @@
      </div>
    </div>
  </div>
- <!-- <img src="{% static 'img/background.jpeg' %}" alt=""> -->
 </div>
 {% endblock %}
