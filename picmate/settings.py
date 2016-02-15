@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'app',
+    'imagekit',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -76,6 +77,11 @@ TEMPLATES = [
         },
     },
 ]
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static/media')
+
+MEDIA_URL = 'media/'
 
 WSGI_APPLICATION = 'picmate.wsgi.application'
 

@@ -3,18 +3,42 @@
 
 {% block content %}
 <div id="wrapper">
-    <div id="sidebar-wrapper">
+    <div id="sidebar-wrapper" class="row">
         <ul class="sidebar-nav">
                 <li class="sidebar-brand text-center">
                     <a href="/">
                         <h1>PicMate</h1>
                     </a>
-                    <hr>
                 </li>
+        </ul>
+        <ul class="thumbs">
                 <li>
-
+                {% for image in images %}
+                <div>
+                    <img class="thumbnail" src="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
+                </div>
+                {% endfor %}
+                </li>
+                <li class="upload">
+                    <form method="post" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        {% if form.non_field_errors%}
+                            {{ form.non_field_errors }} <br>
+                        {% endif %}
+                        {% if form.image.errors%}
+                            {{ form.image.errors }}
+                        {% endif %}
+                        <div class="form-group col-md-10">
+                            {{ form.image }}
+                        </div>
+                        <div class="form-group col-md-10">
+                        <input class="btn btn-sm" type="submit" value="Upload" />
+                        </div>
+                    </form>
                 </li>
             </ul>
+
+
     </div>
     <div id="page-content-wrapper">
         <nav class="navbar navbar-default navbar-fixed">
@@ -52,8 +76,15 @@
 
         <div class="content">
             <div class="container-fluid">
-            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle</a>
-            {{ user.socialaccount_set.all.0.extra_data }}
+            <div class="panel panel-default">
+
+              <div class="panel-body">
+                {{ user.socialaccount_set.all.0.extra_data }}
+              </div>
+              <div class="panel-footer"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle</a></div>
+            </div>
+
+
             </div>
         </div>
 
