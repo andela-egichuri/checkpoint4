@@ -15,3 +15,8 @@ class Image(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-date_created']
