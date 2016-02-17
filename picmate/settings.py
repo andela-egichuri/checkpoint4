@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'compressor',
 ]
 
-SITE_ID = 3
+SITE_ID = 4
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +62,14 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'picmate.urls'
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+]
 
 TEMPLATES = [
     {
