@@ -364,3 +364,7 @@ transition: all 0.3s linear;
 .carousel-fade .carousel-control {
   z-index: 2;
 }
+#social img {
+  max-height: 30px;
+  margin: 10px 5px;
+}

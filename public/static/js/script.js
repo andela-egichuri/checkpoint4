@@ -2,6 +2,18 @@ var current_image = ""
 var effect = ""
 
 $(document).ready(function(){
+    $('.fb-share').click(function(e) {
+        e.preventDefault();
+        window.open($(this).attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+        return false;
+    });
+
+    $('.twitter-share-button').click(function(e) {
+        e.preventDefault();
+        window.open($(this).attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+        return false;
+    });
+
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -48,7 +60,11 @@ $(document).ready(function(){
                 $("#picholder").empty().append(img);
                 $("#picholder img").addClass("thumbnail img-responsive");
                 $("#wrapper").toggleClass("toggled");
-                $("#effectsholder").removeClass("hidden")
+                $("#effectsholder").removeClass("hidden");
+                $("#social").removeClass("hidden");
+                $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + window.location.host + {{ STATIC_URL }} + name);
+                $(".twitter-share-button").attr("href", "https://twitter.com/home?status=" + window.location.host + {{ STATIC_URL }} + name);
+
             }).error(function () {
                 $("#picholder").empty().append('Error Loading Image');
             }).attr({
@@ -90,6 +106,9 @@ function loadpic(name, id) {
         $("#picholder img").addClass("thumbnail img-responsive");
         $("#wrapper").toggleClass("toggled");
         $("#effectsholder").removeClass("hidden")
+        $("#social").removeClass("hidden")
+        $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + window.location.host + {{ STATIC_URL }} + name);
+        $(".twitter-share-button").attr("href", "https://twitter.com/home?status=" + window.location.host + {{ STATIC_URL }} + name);
     }).error(function () {
         $("#picholder").empty().append('Error Loading Image');
     }).attr({
