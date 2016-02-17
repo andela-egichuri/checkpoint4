@@ -1,3 +1,6 @@
+var current_image = ""
+var effect = ""
+
 $(document).ready(function(){
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
@@ -6,36 +9,52 @@ $(document).ready(function(){
 
     getHeight()
 
+    $(".carousel-inner div:first").addClass("active");
+
     document.getElementsByTagName("BODY")[0].onresize = function() {getHeight()};
 
     $('#effectsholder').carousel({
-      interval: false
+      interval: false,
   })
 
     $('.carousel .item').each(function(){
-        var next = $(this);
-        var last;
-        for (var i=0;i<5;i++) {
-            next=next.next();
-            if (!next.length) {
-                next = $(this).siblings(':first');
-            }
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+    }
+    next.children(':first-child').clone().appendTo($(this));
 
-            last=next.children(':first-child').clone().appendTo($(this));
+    for (var i=0;i<4;i++) {
+        next=next.next();
+        if (!next.length) {
+            next = $(this).siblings(':first');
         }
-        last.addClass('rightest');
 
-    });
+        next.children(':first-child').clone().appendTo($(this));
+    }
+});
 
-    $("#effectsholder a").click(function () {
-        console.log($(this))
+    $("#effectsholder .carousel-inner img").click(function () {
+        effect = $(this).attr('id')
         $.ajax({
           method: "POST",
-          url: "../image/edit/",
-          data: { effect: "rotate", id:'31'}
+          url: "/image/edit/",
+          data: { effect: effect, id:current_image}
       })
         .done(function( msg ) {
-            console.log(msg)
+            name = msg.url
+            var img = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
+            $(img).load(function(){
+                $("#picholder").empty().append(img);
+                $("#picholder img").addClass("thumbnail img-responsive");
+                $("#wrapper").toggleClass("toggled");
+                $("#effectsholder").removeClass("hidden")
+            }).error(function () {
+                $("#picholder").empty().append('Error Loading Image');
+            }).attr({
+                id: 'myimage',
+            }).css({"max-height": h + 'px'})
+            effect = ''
         });
     });
 
@@ -48,52 +67,65 @@ function getHeight() {
 
 }
 
+function getPic(id) {
+    $.ajax({
+      method: "POST",
+      url: "/image/",
+      data: { id: id}
+  })
+    .done(function( msg ) {
+        console.log(msg)
+    });
+
+}
+
 function loadpic(name, id) {
+    console.log(name)
     var vHeight = $(window).height();
+    current_image = id
     h = 0.7 * (vHeight - 100)
     var img = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
     $(img).load(function(){
         $("#picholder").empty().append(img);
         $("#picholder img").addClass("thumbnail img-responsive");
         $("#wrapper").toggleClass("toggled");
+        $("#effectsholder").removeClass("hidden")
     }).error(function () {
         $("#picholder").empty().append('Error Loading Image');
     }).attr({
         id: 'myimage',
     }).css({"max-height": h + 'px'})
-    console.log(id )
+
+    var preview = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
+    $(preview).load(function(){
+        $("#preview").empty().append(preview);
+        $("#preview img").addClass("thumbnail img-responsive");
+    }).error(function () {
+        $("#preview").empty().append('Error Loading Image');
+    })
+
 }
 
-// function editpic(pic) {
-//     $.ajax({
-//       method: "POST",
-//       url: "image/edit/",
-//       data: { effect: "rotate", id:'31'}
-//   })
-//     .done(function( msg ) {
-//         alert( "Data Saved: " + msg );
-//     });
 
-// }
 
 $.ajaxSetup({
-   beforeSend: function(xhr, settings) {
-       function getCookie(name) {
-           var cookieValue = null;
-           if (document.cookie && document.cookie != '') {
-               var cookies = document.cookie.split(';');
-               for (var i = 0; i < cookies.length; i++) {
-                   var cookie = jQuery.trim(cookies[i]);
+ beforeSend: function(xhr, settings) {
+     function getCookie(name) {
+         var cookieValue = null;
+         if (document.cookie && document.cookie != '') {
+             var cookies = document.cookie.split(';');
+             for (var i = 0; i < cookies.length; i++) {
+                 var cookie = jQuery.trim(cookies[i]);
                      // Does this cookie string begin with the name we want?
                      if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                       break;
-                   }
-               }
-           }
-           return cookieValue;
-       }
-       if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
              // Only send the token to relative URLs i.e. locally.
              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
          }

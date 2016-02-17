@@ -22,6 +22,20 @@ class Picture(models.Model):
         ordering = ['-date_created']
 
 
-# class Effect(models.Model):
-#     name = models.CharField(max_length=50)
-#     active = models.BooleanField(default=False)
+class EffectType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return '{0}'.format(self.name)
+
+
+class Effect(models.Model):
+    name = models.CharField(max_length=50)
+    effect_type = models.ForeignKey(EffectType, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return '{0}'.format(self.name)

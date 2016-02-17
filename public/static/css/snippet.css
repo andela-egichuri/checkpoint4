@@ -146,9 +146,9 @@ body {
 #sidebar-wrapper .glyphicon {
   left: 290px;
 }
-#wrapper.toggled .glyphicon {
+/*#wrapper.toggled .glyphicon {
   left: 100px;
-}
+}*/
 #wrapper.toggled #sidebar-wrapper {
     width: 300px;
 }
@@ -332,3 +332,35 @@ nav img {
   max-height: 100%;
 }
 
+
+.carousel-inner > .item {
+-webkit-transition: all 0.3s linear;
+-moz-transition: all 0.3s linear;
+-ms-transition: all 0.3s linear;
+-o-transition: all 0.3s linear;
+transition: all 0.3s linear;
+}
+
+.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+}
+.carousel-fade .carousel-inner .active {
+  opacity: 1;
+}
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
