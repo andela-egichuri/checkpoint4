@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Image
+from .models import Picture
 # Register your models here.
 
 
-class ImageAdmin(admin.ModelAdmin):
+class PicAdmin(admin.ModelAdmin):
     list_display = (
         'image', 'owner'
     )
 
-admin.site.register(Image, ImageAdmin)
+admin.site.register(Picture, PicAdmin)

@@ -7,7 +7,7 @@ from imagekit.processors import ResizeToFit
 from imagekit.models import ImageSpecField
 
 
-class Image(models.Model):
+class Picture(models.Model):
     image = ProcessedImageField([ResizeToFit(1920, 1200, False)])
     thumbnail = ImageSpecField(
         source='image', processors=[ResizeToFit(300, 150)],
@@ -20,3 +20,8 @@ class Image(models.Model):
 
     class Meta:
         ordering = ['-date_created']
+
+
+# class Effect(models.Model):
+#     name = models.CharField(max_length=50)
+#     active = models.BooleanField(default=False)
