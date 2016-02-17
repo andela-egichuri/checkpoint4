@@ -28,4 +28,5 @@ urlpatterns = [
         ),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^dashboard/', views.dashboard, name='dashboard'),
+    url(r'^image/', include('app.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,12 +1,12 @@
 from django import forms
-from models import Image
+from models import Picture
 
 
 class ImageUploadForm(forms.ModelForm):
     """Image upload form."""
 
     class Meta:
-        model = Image
+        model = Picture
         exclude = ('thumbnail', 'owner',)
         widgets = {'image': forms.FileInput(
             attrs={

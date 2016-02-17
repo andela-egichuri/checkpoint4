@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'compressor',
 ]
 
 SITE_ID = 2
@@ -155,8 +156,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = 'assets'
-
+COMPRESS_ROOT = 'public/static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "public/static"),
+    os.path.join(BASE_DIR, 'public/static'),
 )
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+COMPRESS_ENABLED = True
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.template.TemplateFilter',
+]
+

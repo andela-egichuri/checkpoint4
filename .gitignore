@@ -63,3 +63,4 @@ target/
 
 # Images added during development
 media/
+CACHE/

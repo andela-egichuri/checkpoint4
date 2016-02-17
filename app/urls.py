@@ -1,6 +1,7 @@
 
 from django.conf.urls import patterns, url, include
+import views
 
-# urlpatterns = patterns[
-#     url(r'^list/$', 'list', name='list'),
-# ]
+urlpatterns = [
+    url(r'^edit/$', views.edit, name='edit'),
+]
