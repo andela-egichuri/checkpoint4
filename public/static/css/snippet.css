@@ -143,9 +143,9 @@ body {
     transition: all 0.5s ease;
 }
 
-#sidebar-wrapper .glyphicon {
-  left: 290px;
-}
+/*#sidebar-wrapper .glyphicon {*/
+  /*left: 290px;*/
+/*}*/
 /*#wrapper.toggled .glyphicon {
   left: 100px;
 }*/

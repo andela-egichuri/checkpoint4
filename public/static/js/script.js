@@ -20,7 +20,6 @@ $(document).ready(function(){
   });
 
 
-
   getHeight()
 
   $(".carousel-inner div:first").addClass("active");
@@ -54,61 +53,75 @@ $(document).ready(function(){
       $("#enhancements").removeClass("hidden");
     } else {
       $("#enhancements").addClass("hidden");
-    active_effect = effect
-    $.ajax({
-      method: "POST",
-      url: "/image/edit/",
-      data: { effect: effect, id:current_image}
-    })
-    .done(function( msg ) {
-      name = msg.url
-      display(name)
-      effect = ""
-    });
-  }
+      active_effect = effect
+
+      $.ajax({
+        method: "POST",
+        url: "/image/edit/",
+        data: { effect: effect, id:current_image}
+      })
+      .done(function( msg ) {
+        name = msg.url
+        display(name)
+        effect = ""
+      });
+    }
   });
 
+//   $("#delete").confirm({
+//     title: 'Confirm!',
+//     content: 'Confirm delete... Action irreversible',
+//     confirm: function(){
+//         $.alert('Confirmed!');
+//     },
+//     cancel: function(){
+//         $.alert('Canceled!')
+//     }
+// });
 
-  var color_slider = $("#color_slider").slider()
-  $("#color_slider").change(function(slideEvt) {
-    $('#color').text(slideEvt.value.newValue)
-    enhance()
-  });
 
-  var sharpness_slider = $("#sharpness_slider").slider()
-  $("#sharpness_slider").change(function(slideEvt) {
-    $('#sharpness').text(slideEvt.value.newValue)
-    enhance()
-  });
+var color_slider = $("#color_slider").slider()
+$("#color_slider").change(function(slideEvt) {
+  $('#color').text(slideEvt.value.newValue)
+  enhance()
+});
 
-  var contrast_slider = $("#contrast_slider").slider()
-  $("#contrast_slider").change(function(slideEvt) {
-    $('#contrast').text(slideEvt.value.newValue)
-    enhance()
-  });
+var sharpness_slider = $("#sharpness_slider").slider()
+$("#sharpness_slider").change(function(slideEvt) {
+  $('#sharpness').text(slideEvt.value.newValue)
+  enhance()
+});
 
-  var bright_slider = $("#bright_slider").slider()
-  $("#bright_slider").change(function(slideEvt) {
-    $('#brightness').text(slideEvt.value.newValue)
-    enhance()
-  });
+var contrast_slider = $("#contrast_slider").slider()
+$("#contrast_slider").change(function(slideEvt) {
+  $('#contrast').text(slideEvt.value.newValue)
+  enhance()
+});
+
+var bright_slider = $("#bright_slider").slider()
+$("#bright_slider").change(function(slideEvt) {
+  $('#brightness').text(slideEvt.value.newValue)
+  enhance()
+});
+
+
 
 });
 
 function enhance() {
-    color = ($('#color').text()) / 10
-    sharpness = ($('#sharpness').text()) / 10
-    contrast = ($('#contrast').text()) / 10
-    brightness = ($('#brightness').text()) / 10
-    $.ajax({
-      method: "POST",
-      url: "/image/edit/",
-      data: { effect: 'enhance', color: color, sharpness: sharpness, contrast: contrast, brightness: brightness, id:current_image}
-    })
-    .done(function( msg ) {
-      name = msg.url
-      display(name)
-    });
+  color = ($('#color').text()) / 10
+  sharpness = ($('#sharpness').text()) / 10
+  contrast = ($('#contrast').text()) / 10
+  brightness = ($('#brightness').text()) / 10
+  $.ajax({
+    method: "POST",
+    url: "/image/edit/",
+    data: { effect: 'enhance', color: color, sharpness: sharpness, contrast: contrast, brightness: brightness, id:current_image}
+  })
+  .done(function( msg ) {
+    name = msg.url
+    display(name)
+  });
 }
 
 function getHeight() {
@@ -163,7 +176,30 @@ function loadpic(name, id) {
 
 }
 
-
+function deletepic(id) {
+  $.confirm({
+    title: 'Confirm Delete!',
+    content: 'Are you sure?',
+    confirmButton: 'Delete',
+    cancelButton: 'Cancel',
+    confirmButtonClass: 'btn-danger',
+    cancelButtonClass: 'btn-info',
+    theme: 'material',
+    animation: 'left',
+    animationBounce: 1.5,
+    closeAnimation: 'zoom',
+    confirm: function(){
+      $.ajax({
+        method: "POST",
+        url: "/image/delete/",
+        data: { id: id}
+      })
+      .done(function( msg ) {
+        location.reload();
+      });
+    }
+  });
+}
 
 $.ajaxSetup({
  beforeSend: function(xhr, settings) {
@@ -173,16 +209,16 @@ $.ajaxSetup({
        var cookies = document.cookie.split(';');
        for (var i = 0; i < cookies.length; i++) {
          var cookie = jQuery.trim(cookies[i]);
-                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                       break;
-                     }
-                   }
-                 }
-                 return cookieValue;
-               }
-               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-           }
+         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+           break;
          }
-       });
+       }
+     }
+     return cookieValue;
+   }
+   if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+   }
+ }
+});

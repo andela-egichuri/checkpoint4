@@ -1,4 +1,6 @@
 import os
+import shutil
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -92,10 +94,30 @@ def get_image(request):
     image = {}
     id = request.POST['id']
     pic = Picture.objects.get(id=id)
-    import ipdb; ipdb.set_trace()
     image['pic_name'] = pic.image.name
     image['pic_id'] = pic.id
     image['thumbnail'] = pic.thumbnail.url
     image['pic_path'] = pic.image.path
     image['url'] = pic.image.url
     return HttpResponse(json.dumps(image), content_type="application/json")
+
+
+@login_required
+@require_http_methods(["POST"])
+def delete(request):
+    data = {}
+    id = request.POST['id']
+    try:
+        pic = Picture.objects.get(id=id)
+        thumb = pic.thumbnail.path
+        pic_path = pic.image.path
+        if os.path.exists(os.path.dirname(thumb)):
+            shutil.rmtree(os.path.dirname(thumb))
+        if os.path.exists(pic_path):
+            os.remove(pic_path)
+        pic.delete()
+        data['status'] = 'complete'
+    except:
+        data['status'] = 'error'
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
