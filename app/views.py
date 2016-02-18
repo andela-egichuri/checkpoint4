@@ -45,18 +45,26 @@ def dashboard(request):
 @require_http_methods(["POST"])
 def edit(request):
     id = request.POST['id']
-    effect_id = request.POST['effect']
+    effect_name = request.POST['effect']
+    if effect_name == 'enhance':
+        enhancement = {}
+        enhancement['color'] = float(request.POST['color'])
+        enhancement['contrast'] = float(request.POST['contrast'])
+        enhancement['sharpness'] = float(request.POST['sharpness'])
+        enhancement['brightness'] = float(request.POST['brightness'])
+
     pic = Picture.objects.get(id=id)
     pic_path = pic.image.path
-    effect = Effect.objects.filter(id=effect_id)
-    to_apply = EditImage(pic_path, effect[0].name)
+
+    effect = Effect.objects.filter(name=effect_name)
+    to_apply = EditImage(pic_path, effect_name)
     effect_type = effect[0].effect_type.name
 
     if effect_type == 'image':
         edited = to_apply.basic_effects()
 
     elif effect_type == 'imageenhance':
-        edited = to_apply.enhancements()
+        edited = to_apply.enhancements(enhancement)
 
     elif effect_type == 'imagefilter':
         edited = to_apply.filters()

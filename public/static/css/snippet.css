@@ -368,3 +368,6 @@ transition: all 0.3s linear;
   max-height: 30px;
   margin: 10px 5px;
 }
+.capitalize {
+    text-transform: capitalize;
+}

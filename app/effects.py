@@ -1,4 +1,5 @@
 import os
+import time
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings
 from PIL import Image, ImageFilter, ImageOps, ImageEnhance
@@ -16,15 +17,31 @@ class EditImage:
         self.temp_dir = path
         self.image = Image.open(image)
         self.effect = effect
-        self.tempfile = self.temp_dir + '/' + self.filename
+        self.new_file = self.temp_dir + '/' + self.filename
 
-    def enhancements(self):
-        if self.effect == 'contrast':
-            enhancer = ImageEnhance.Contrast(self.image)
-            self.image = enhancer.enhance(0.5)
+    def enhancements(self, enhancement):
 
-        self.image.save(self.tempfile)
-        return self.effect + '/' + os.path.basename(self.tempfile)
+        enhancer = ImageEnhance.Contrast(self.image)
+        self.image = enhancer.enhance(enhancement['contrast'])
+
+        enhancer = ImageEnhance.Brightness(self.image)
+        self.image = enhancer.enhance(enhancement['brightness'])
+
+        enhancer = ImageEnhance.Sharpness(self.image)
+        self.image = enhancer.enhance(enhancement['sharpness'])
+
+        enhancer = ImageEnhance.Color(self.image)
+        self.image = enhancer.enhance(enhancement['color'])
+
+        alt_name = self.temp_dir + '/' + str(time.time()).translate(None, '.') + self.filename
+
+        if os.path.exists(alt_name):
+            os.remove(alt_name)
+            alt_name = self.temp_dir + '/' + str(time.time()).translate(None, '.') + self.filename
+        self.new_file = alt_name
+
+        self.image.save(self.new_file)
+        return self.effect + '/' + os.path.basename(self.new_file)
 
     def operations(self):
         if self.effect == 'flip':
@@ -34,8 +51,8 @@ class EditImage:
             to_save = ImageOps.mirror(self.image)
         if self.effect == 'grayscale':
             to_save = ImageOps.grayscale(self.image)
-        to_save.save(self.tempfile)
-        return self.effect + '/' + os.path.basename(self.tempfile)
+        to_save.save(self.new_file)
+        return self.effect + '/' + os.path.basename(self.new_file)
 
     def filters(self):
         if self.effect == 'smooth':
@@ -50,12 +67,12 @@ class EditImage:
             to_save = self.image.filter(ImageFilter.FIND_EDGES)
         if self.effect == 'blur':
             to_save = self.image.filter(ImageFilter.BLUR)
-        to_save.save(self.tempfile)
-        return self.effect + '/' + os.path.basename(self.tempfile)
+        to_save.save(self.new_file)
+        return self.effect + '/' + os.path.basename(self.new_file)
 
     def basic_effects(self):
         if self.effect == 'rotate':
             to_save = self.image.rotate(angle)
-        to_save.save(self.tempfile)
-        return self.effect + '/' + os.path.basename(self.tempfile)
+        to_save.save(self.new_file)
+        return self.effect + '/' + os.path.basename(self.new_file)
 

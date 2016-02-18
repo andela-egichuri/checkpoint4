@@ -12,11 +12,13 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="{% static 'css/snippet.css' %}"  media="screen,projection"/>
   <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/css/bootstrap-slider.min.css' rel='stylesheet'
+  type='text/css'>
 
 </head>
 <body>
-<header>
-  {% block header %}
+  <header>
+    {% block header %}
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -37,37 +39,43 @@
               <a class="navbar-text"></a>
             </li>
             <li>
-              <a class="small"><em>Hi {{ user.socialaccount_set.all.0.extra_data.name }}</em></a>
-            </li>
-            <li>
-              <a class="dec small" href="/accounts/logout/">
-                Log out
-              </a>
-            </li>
-          </ul>
+              <a class="small"><em>
+                {% if user.is_authenticated %}
+                <p class="capitalize">Hi, {{ user.get_username }}</p>
+                {% endif %}
+                 <!-- {{ user.socialaccount_set.all.0.extra_data.name }} --></em></a>
+              </li>
+              <li>
+                <a class="dec small" href="/accounts/logout/">
+                  Log out
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-  {% endblock %}
-  </header>
-  <div class="container-fluid">
-  {% block content %}
+      </nav>
+      {% endblock %}
+    </header>
+    <div class="container-fluid">
+      {% block content %}
 
-  {% endblock %}
-</div>
-<footer>
-  {% block footer%}
-
-
-{% endblock%}
-</footer>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-{% compress js %}
-<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/script.js' %}"></script>
-{% endcompress %}
+      {% endblock %}
+    </div>
+    <footer>
+      {% block footer%}
 
 
+      {% endblock%}
+    </footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.min.js"></script>
 
-</body>
-</html>
+    {% compress js %}
+    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endcompress %}
+
+
+
+  </body>
+  </html>
