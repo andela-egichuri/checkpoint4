@@ -33,7 +33,7 @@
           <a href="#" onclick="loadpic('{{ image.image.url }}', '{{ image.id }}')">
             <img class="thumbnail img-responsive" src="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
           </a>
-          <span class="small dec col-sm-12">Added: {{ image.date_created }}</span> <span id="delete" onclick="deletepic({{image.id }})" class="glyphicon glyphicon-trash col-sm-12" aria-hidden="true"></span>
+          <!-- <span id="delete" onclick="deletepic({{image.id }})" class="glyphicon glyphicon-trash col-sm-12" aria-hidden="true"></span> -->
         </div>
         {% endfor %}
       </li>
@@ -84,9 +84,17 @@
       </div>
     </div>
   </div>
-  <div class="content col-sm-3 text-center">
-    <div  id="preview" class=" text-center">
+  <div class="content col-sm-3">
+    <div  id="preview" class="text-center">
 
+    </div>
+    <div id="pic-details" class="well hidden">
+      <span id="picname" class="small dec col-sm-12"> </span>
+      <span id="added" class="small dec col-sm-12"> </span>
+      <span id="size" class="small dec col-sm-12"></span>
+      <span id="dimensions" class="small dec col-sm-12"></span>
+      <span id="size" class="small dec col-sm-12"></span>
+      <button id="delete" onclick="deletepic()" class="btn btn-sm btn-warning" aria-hidden="true">Delete</button>
     </div>
     <div id="enhancements" class="well hidden row">
       <span class="col-sm-12">

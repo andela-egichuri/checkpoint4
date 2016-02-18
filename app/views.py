@@ -94,11 +94,15 @@ def get_image(request):
     image = {}
     id = request.POST['id']
     pic = Picture.objects.get(id=id)
-    image['pic_name'] = pic.image.name
+    image['pic_name'] = os.path.basename(pic.image.name)
     image['pic_id'] = pic.id
     image['thumbnail'] = pic.thumbnail.url
     image['pic_path'] = pic.image.path
     image['url'] = pic.image.url
+    image['added'] = "{:%d %b %Y}".format(pic.date_created)
+    image['size'] = sizeof_fmt(pic.image.size)
+    image['width'] = pic.image.width
+    image['height'] = pic.image.height
     return HttpResponse(json.dumps(image), content_type="application/json")
 
 
@@ -121,3 +125,11 @@ def delete(request):
         data['status'] = 'error'
 
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in [' ', ' K', ' M', ' G', ' T', ' Pi', ' Ei', ' Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)

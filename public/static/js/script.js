@@ -68,17 +68,6 @@ $(document).ready(function(){
     }
   });
 
-//   $("#delete").confirm({
-//     title: 'Confirm!',
-//     content: 'Confirm delete... Action irreversible',
-//     confirm: function(){
-//         $.alert('Confirmed!');
-//     },
-//     cancel: function(){
-//         $.alert('Canceled!')
-//     }
-// });
-
 
 var color_slider = $("#color_slider").slider()
 $("#color_slider").change(function(slideEvt) {
@@ -134,7 +123,7 @@ function getHeight() {
 function display(name) {
   var img = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
   $(img).load(function(){
-    $("#picholder").empty().delay(500).append(img);
+    $("#picholder").empty().append(img);
     $("#picholder img").addClass("thumbnail img-responsive");
     $("#wrapper").toggleClass("toggled");
     $("#effectsholder").removeClass("hidden");
@@ -151,13 +140,24 @@ function display(name) {
 function getPic(id) {
   $.ajax({
     method: "POST",
-    url: "/image/",
+    url: "/image/imagedetail/",
     data: { id: id}
   })
   .done(function( msg ) {
-
+    picname = msg.url
+    var preview = $("<img />").attr('src', '{{ STATIC_URL }}' + picname)
+  $(preview).load(function(){
+    $("#pic-details").removeClass("hidden");
+    $("#preview").empty().append(preview);
+    $("#preview img").addClass("thumbnail img-responsive");
+    $("#picname").text("Name:  " + msg.pic_name)
+    $("#added").text("Added:  " + msg.added)
+    $("#size").text("Size:  " + msg.size)
+    $("#dimensions").text("Dimensions:  " + msg.width + " x " + msg.height)
+  }).error(function () {
+    $("#preview").empty().append('Error Loading Image');
+  })
   });
-
 }
 
 function loadpic(name, id) {
@@ -165,18 +165,12 @@ function loadpic(name, id) {
   current_image = id
   h = 0.7 * (vHeight - 100)
   display(name)
+  getPic(id)
 
-  var preview = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
-  $(preview).load(function(){
-    $("#preview").empty().append(preview);
-    $("#preview img").addClass("thumbnail img-responsive");
-  }).error(function () {
-    $("#preview").empty().append('Error Loading Image');
-  })
 
 }
 
-function deletepic(id) {
+function deletepic() {
   $.confirm({
     title: 'Confirm Delete!',
     content: 'Are you sure?',
@@ -192,7 +186,7 @@ function deletepic(id) {
       $.ajax({
         method: "POST",
         url: "/image/delete/",
-        data: { id: id}
+        data: { id: current_image}
       })
       .done(function( msg ) {
         location.reload();
