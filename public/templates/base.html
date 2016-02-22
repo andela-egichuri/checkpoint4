@@ -75,14 +75,8 @@
     {% compress js %}
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/vendor/dropzone.js' %}"></script>
     <script src="{% static 'js/vendor/jquery-confirm.min.js' %}"></script>
     {% endcompress %}
-    <script>
-      Dropzone.options.FileUpload = {
-        paramName: "image",
-      };
-    </script>
 
 
   </body>

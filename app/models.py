@@ -16,7 +16,6 @@ class Picture(models.Model):
         User, on_delete=models.CASCADE
     )
     date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-date_created']
@@ -39,3 +38,11 @@ class Effect(models.Model):
 
     def __str__(self):
         return '{0}'.format(self.name)
+
+
+class Edits(models.Model):
+    image_name = models.ImageField('img', upload_to='edits/')
+    effect = models.CharField(max_length=50)
+    parent_pic = models.ForeignKey(Picture, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)

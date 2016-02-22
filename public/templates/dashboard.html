@@ -33,7 +33,6 @@
           <a href="#" onclick="loadpic('{{ image.image.url }}', '{{ image.id }}')">
             <img class="thumbnail img-responsive" src="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
           </a>
-          <!-- <span id="delete" onclick="deletepic({{image.id }})" class="glyphicon glyphicon-trash col-sm-12" aria-hidden="true"></span> -->
         </div>
         {% endfor %}
       </li>
@@ -44,9 +43,9 @@
       <div id="content" class="panel panel-default">
         <div class="panel-heading row">
           <div id="social" class="col-sm-12 hidden">
-           <a class="fb-share" href="" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
-           <a href="https://twitter.com/share" class="twitter-share-button" data-url="" data-text="Check this out"><i class="fa fa-twitter-square fa-2x"></i></a>
-           <!-- <a href=""><i class="fa fa-save fa-2x"></i></a> -->
+           <a class="fb-share" href="" onclick="savePic()" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+           <a href="https://twitter.com/share" onclick="savePic()" class="twitter-share-button" data-url="" data-text="Check this out"><i class="fa fa-twitter-square fa-2x"></i></a>
+           <a href="#" onclick="savePic()"><i class="fa fa-save fa-2x"></i></a>
          </div>
          <span class="hidden-lg hidden-md"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Select/Change Image</a></span>
        </div>
@@ -82,6 +81,9 @@
           <div class="col-sm-1"><a class="right" href="#effectsholder" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
         </div>
       </div>
+    </div>
+    <div class="saved-effects hidden">
+      Saved Effects
     </div>
   </div>
   <div class="content col-sm-3">

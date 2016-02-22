@@ -12,7 +12,7 @@ class EditImage:
         # os.path.bass.path.splitext(os.path.basename(pic_path))
         self.filename = os.path.basename(image)
         self.temp = os.path.splitext(self.filename)[0]
-        path = os.path.dirname(image) + '/edited/' + self.temp + '/' + str(effect)
+        path = os.path.dirname(image) + '/temp/' + self.temp + '/' + str(effect)
         if not os.path.exists(path):
             os.makedirs(path)
 

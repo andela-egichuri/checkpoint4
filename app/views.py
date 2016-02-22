@@ -1,6 +1,6 @@
 import os
 import shutil
-
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -9,7 +9,7 @@ import json
 from django.core import serializers
 from PIL import Image
 from effects import EditImage
-from models import Picture, Effect
+from models import Picture, Effect, Edits
 from forms import ImageUploadForm
 
 
@@ -76,7 +76,7 @@ def edit(request):
     elif effect_type == 'imageops':
         edited = to_apply.operations()
 
-    url = 'media/edited/' + edited
+    url = 'media/temp/' + edited
     data = {'url': url}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -118,12 +118,18 @@ def delete(request):
         thumb = pic.thumbnail.path
         pic_path = pic.image.path
         pic_name = os.path.basename(pic.image.name)
-        edits_path = os.path.dirname(pic_path) + '/edited/' + os.path.splitext(pic_name)[0]
+        temp_path = os.path.dirname(pic_path) + '/temp/' + os.path.splitext(pic_name)[0]
+
+        edits = Edits.objects.filter(parent_pic=pic)
+        for item in edits:
+            item_path = os.path.dirname(pic_path) + item.image_name.url
+            if os.path.exists(item_path):
+                os.remove(item_path)
 
         if os.path.exists(os.path.dirname(thumb)):
             shutil.rmtree(os.path.dirname(thumb))
-        if os.path.exists(edits_path):
-            shutil.rmtree(edits_path)
+        if os.path.exists(temp_path):
+            shutil.rmtree(temp_path)
         if os.path.exists(pic_path):
             os.remove(pic_path)
         pic.delete()
@@ -131,6 +137,37 @@ def delete(request):
     except:
         data['status'] = 'error'
 
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+@login_required
+@require_http_methods(["POST"])
+def save(request):
+    pic_name = request.POST['name']
+    pic_parent = Picture.objects.get(id=request.POST['original'])
+    effect = request.POST['effect']
+    pic = os.path.join(settings.BASE_DIR, 'public/' + pic_name)
+    dir_name = settings.MEDIA_ROOT + "/edits/" + effect + "/"
+    if not os.path.exists(dir_name):
+            os.makedirs(dir_name)
+
+    par_name = pic_parent.image.name
+    pic_path = pic_parent.image.path
+    dest = dir_name + os.path.basename(par_name)
+    temp_path = os.path.dirname(pic_path) + '/temp/' + os.path.splitext(par_name)[0]
+
+    try:
+        shutil.copy(pic, dest)
+        edited = Edits()
+        image_name = "/edits/" + effect + "/" + os.path.basename(dest)
+        Edits.objects.update_or_create(image_name=image_name, effect=effect, parent_pic=pic_parent)
+
+        if os.path.exists(temp_path):
+            shutil.rmtree(temp_path)
+    except Exception, e:
+        print e
+
+    data = {'pic_name': dest, 'effect': effect}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 

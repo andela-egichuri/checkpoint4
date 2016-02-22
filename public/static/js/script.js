@@ -1,6 +1,29 @@
+$.ajaxSetup({
+ beforeSend: function(xhr, settings) {
+   function getCookie(name) {
+     var cookieValue = null;
+     if (document.cookie && document.cookie != '') {
+       var cookies = document.cookie.split(';');
+       for (var i = 0; i < cookies.length; i++) {
+         var cookie = jQuery.trim(cookies[i]);
+         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+           break;
+         }
+       }
+     }
+     return cookieValue;
+   }
+   if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+   }
+ }
+});
+
 var current_image = ""
 var active_effect = ""
 var pic_name = ""
+
 $(document).ready(function(){
 
   $('.fb-share').click(function(e) {
@@ -53,6 +76,8 @@ $(document).ready(function(){
     if (effect == 'enhance') {
       $("#enhancements").removeClass("hidden");
       display(pic_name)
+      active_effect = effect
+
     } else {
       $("#enhancements").addClass("hidden");
       active_effect = effect
@@ -71,29 +96,29 @@ $(document).ready(function(){
   });
 
 
-var color_slider = $("#color_slider").slider()
-$("#color_slider").change(function(slideEvt) {
-  $('#color').text(slideEvt.value.newValue)
-  enhance()
-});
+  var color_slider = $("#color_slider").slider()
+  $("#color_slider").change(function(slideEvt) {
+    $('#color').text(slideEvt.value.newValue)
+    enhance()
+  });
 
-var sharpness_slider = $("#sharpness_slider").slider()
-$("#sharpness_slider").change(function(slideEvt) {
-  $('#sharpness').text(slideEvt.value.newValue)
-  enhance()
-});
+  var sharpness_slider = $("#sharpness_slider").slider()
+  $("#sharpness_slider").change(function(slideEvt) {
+    $('#sharpness').text(slideEvt.value.newValue)
+    enhance()
+  });
 
-var contrast_slider = $("#contrast_slider").slider()
-$("#contrast_slider").change(function(slideEvt) {
-  $('#contrast').text(slideEvt.value.newValue)
-  enhance()
-});
+  var contrast_slider = $("#contrast_slider").slider()
+  $("#contrast_slider").change(function(slideEvt) {
+    $('#contrast').text(slideEvt.value.newValue)
+    enhance()
+  });
 
-var bright_slider = $("#bright_slider").slider()
-$("#bright_slider").change(function(slideEvt) {
-  $('#brightness').text(slideEvt.value.newValue)
-  enhance()
-});
+  var bright_slider = $("#bright_slider").slider()
+  $("#bright_slider").change(function(slideEvt) {
+    $('#brightness').text(slideEvt.value.newValue)
+    enhance()
+  });
 
 
 
@@ -123,15 +148,15 @@ function getHeight() {
 
 function display(name) {
   var img = $("<img />").attr('src', '{{ STATIC_URL }}' + name)
+  var share_url = window.location.host + {{ STATIC_URL }} + 'media/edits/' + active_effect + '/' + pic_name.replace(/^.*[\\\/]/, '')
   $(img).load(function(){
     $("#picholder").empty().append(img);
     $("#picholder img").addClass("thumbnail img-responsive");
     $("#wrapper").toggleClass("toggled");
     $("#effectsholder").removeClass("hidden");
     $("#social").removeClass("hidden");
-    $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + window.location.host + {{ STATIC_URL }} + name);
-    $(".twitter-share-button").attr("href", "https://twitter.com/home?status=" + window.location.host + {{ STATIC_URL }} + name);
-    $(".save-image").attr("href", "https://twitter.com/home?status=" + window.location.host + {{ STATIC_URL }} + name);
+    $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + share_url);
+    $(".twitter-share-button").attr("href", "https://twitter.com/home?status=" + share_url);
   }).error(function () {
     $("#picholder").empty().append('<div class="alert alert-danger col-sm-12" role="alert">Error Loading Image</div>');
   }).attr({
@@ -148,18 +173,34 @@ function getPic(id) {
   .done(function( msg ) {
     picname = msg.url
     var preview = $("<img />").attr('src', '{{ STATIC_URL }}' + picname)
-  $(preview).load(function(){
-    $("#pic-details").removeClass("hidden");
-    $("#preview").empty().append(preview);
-    $("#preview img").addClass("thumbnail img-responsive");
-    $("#picname").text("Name:  " + msg.pic_name)
-    $("#added").text("Added:  " + msg.added)
-    $("#size").text("Size:  " + msg.size)
-    $("#dimensions").text("Dimensions:  " + msg.width + " x " + msg.height)
-  }).error(function () {
-    $("#preview").empty().append('Error Loading Image');
-  })
+    $(preview).load(function(){
+      $("#pic-details").removeClass("hidden");
+      $("#preview").empty().append(preview);
+      $("#preview img").addClass("thumbnail img-responsive");
+      $("#picname").text("Name:  " + msg.pic_name)
+      $("#added").text("Added:  " + msg.added)
+      $("#size").text("Size:  " + msg.size)
+      $("#dimensions").text("Dimensions:  " + msg.width + " x " + msg.height)
+    }).error(function () {
+      $("#preview").empty().append('Error Loading Image');
+    })
   });
+}
+
+function savePic() {
+  name = $("#picholder img").attr('src')
+  $.ajax({
+    method: "POST",
+    url: "/image/save/",
+    data: { name: name, original: current_image, effect:active_effect}
+  })
+  .done(function( msg ) {
+    $.alert({
+      title: 'Done!',
+      content: 'Effect Saved!',
+      backgroundDismiss: true
+    });
+  })
 }
 
 function loadpic(name, id) {
@@ -169,14 +210,12 @@ function loadpic(name, id) {
   h = 0.7 * (vHeight - 100)
   display(name)
   getPic(id)
-
-
 }
 
 function deletepic() {
   $.confirm({
     title: 'Confirm Delete!',
-    content: 'Are you sure?',
+    content: 'Are you sure? This will delete all effects and filters applied too',
     confirmButton: 'Delete',
     cancelButton: 'Cancel',
     confirmButtonClass: 'btn-danger',
@@ -197,26 +236,4 @@ function deletepic() {
     }
   });
 }
-
-$.ajaxSetup({
- beforeSend: function(xhr, settings) {
-   function getCookie(name) {
-     var cookieValue = null;
-     if (document.cookie && document.cookie != '') {
-       var cookies = document.cookie.split(';');
-       for (var i = 0; i < cookies.length; i++) {
-         var cookie = jQuery.trim(cookies[i]);
-         if (cookie.substring(0, name.length + 1) == (name + '=')) {
-           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-           break;
-         }
-       }
-     }
-     return cookieValue;
-   }
-   if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-   }
- }
-});
 
