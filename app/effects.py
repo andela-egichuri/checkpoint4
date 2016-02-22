@@ -9,8 +9,10 @@ from models import Effect
 class EditImage:
 
     def __init__(self, image, effect):
+        # os.path.bass.path.splitext(os.path.basename(pic_path))
         self.filename = os.path.basename(image)
-        path = os.path.dirname(image) + '/edited/' + str(effect)
+        self.temp = os.path.splitext(self.filename)[0]
+        path = os.path.dirname(image) + '/edited/' + self.temp + '/' + str(effect)
         if not os.path.exists(path):
             os.makedirs(path)
 
@@ -18,6 +20,7 @@ class EditImage:
         self.image = Image.open(image)
         self.effect = effect
         self.new_file = self.temp_dir + '/' + self.filename
+        self.return_path = self.temp + '/' + self.effect + '/' + os.path.basename(self.new_file)
 
     def enhancements(self, enhancement):
 
@@ -41,7 +44,7 @@ class EditImage:
         self.new_file = alt_name
 
         self.image.save(self.new_file)
-        return self.effect + '/' + os.path.basename(self.new_file)
+        return self.temp + '/' + self.effect + '/' + os.path.basename(self.new_file)
 
     def operations(self):
         if self.effect == 'flip':
@@ -52,7 +55,7 @@ class EditImage:
         if self.effect == 'grayscale':
             to_save = ImageOps.grayscale(self.image)
         to_save.save(self.new_file)
-        return self.effect + '/' + os.path.basename(self.new_file)
+        return self.return_path
 
     def filters(self):
         if self.effect == 'smooth':
@@ -68,11 +71,11 @@ class EditImage:
         if self.effect == 'blur':
             to_save = self.image.filter(ImageFilter.BLUR)
         to_save.save(self.new_file)
-        return self.effect + '/' + os.path.basename(self.new_file)
+        return self.return_path
 
     def basic_effects(self):
         if self.effect == 'rotate':
-            to_save = self.image.rotate(angle)
+            to_save = self.image.rotate(90)
         to_save.save(self.new_file)
-        return self.effect + '/' + os.path.basename(self.new_file)
+        return self.return_path
 

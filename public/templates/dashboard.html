@@ -9,7 +9,7 @@
       <li>
         <div class="panel panel-default">
           <div class="panel-body">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" action="/dashboard/" id="FileUpload">
               {% csrf_token %}
               {% if form.non_field_errors%}
               {{ form.non_field_errors }} <br>
@@ -46,7 +46,7 @@
           <div id="social" class="col-sm-12 hidden">
            <a class="fb-share" href="" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
            <a href="https://twitter.com/share" class="twitter-share-button" data-url="" data-text="Check this out"><i class="fa fa-twitter-square fa-2x"></i></a>
-           <a href=""><i class="fa fa-save fa-2x"></i></a>
+           <!-- <a href=""><i class="fa fa-save fa-2x"></i></a> -->
          </div>
          <span class="hidden-lg hidden-md"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Select/Change Image</a></span>
        </div>
@@ -89,6 +89,7 @@
 
     </div>
     <div id="pic-details" class="well hidden">
+    <span><h4>Original Image</h4></span>
       <span id="picname" class="small dec col-sm-12"> </span>
       <span id="added" class="small dec col-sm-12"> </span>
       <span id="size" class="small dec col-sm-12"></span>

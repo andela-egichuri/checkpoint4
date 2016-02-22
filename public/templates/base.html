@@ -11,6 +11,7 @@
   type='text/css'>
   <link type="text/css" rel="stylesheet" href="{% static 'css/snippet.css' %}"  media="screen,projection"/>
   <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-confirm.min.css' %}"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="{% static 'css/dropzone.css' %}"  media="screen,projection"/>
   <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
   <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/css/bootstrap-slider.min.css' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -32,7 +33,7 @@
         </div>
         <div class="collapse navbar-collapse" id="mobile-nav">
           <ul class="nav navbar-nav navbar-right">
-            <li>
+            <li class="prof-pic">
               <img class="img-responsive img-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" />
             </li>
             <li>
@@ -57,7 +58,7 @@
       </nav>
       {% endblock %}
     </header>
-    <div class="container-fluid">
+    <div class="">
       {% block content %}
 
       {% endblock %}
@@ -74,10 +75,14 @@
     {% compress js %}
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/vendor/jquery.lazyload.min.js' %}"></script>
+    <script src="{% static 'js/vendor/dropzone.js' %}"></script>
     <script src="{% static 'js/vendor/jquery-confirm.min.js' %}"></script>
     {% endcompress %}
-
+    <script>
+      Dropzone.options.FileUpload = {
+        paramName: "image",
+      };
+    </script>
 
 
   </body>

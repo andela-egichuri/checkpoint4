@@ -28,10 +28,12 @@ def dashboard(request):
     # Handle file upload
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
+        # import ipdb; ipdb.set_trace()
         if form.is_valid():
-            newimage = Picture(image=request.FILES['image'])
-            newimage.owner = request.user
-            newimage.save()
+            for afile in request.FILES.getlist('image'):
+                newimage = Picture(image=afile)
+                newimage.owner = request.user
+                newimage.save()
             return HttpResponseRedirect('/dashboard')
     else:
         form = ImageUploadForm()
@@ -115,8 +117,13 @@ def delete(request):
         pic = Picture.objects.get(id=id)
         thumb = pic.thumbnail.path
         pic_path = pic.image.path
+        pic_name = os.path.basename(pic.image.name)
+        edits_path = os.path.dirname(pic_path) + '/edited/' + os.path.splitext(pic_name)[0]
+
         if os.path.exists(os.path.dirname(thumb)):
             shutil.rmtree(os.path.dirname(thumb))
+        if os.path.exists(edits_path):
+            shutil.rmtree(edits_path)
         if os.path.exists(pic_path):
             os.remove(pic_path)
         pic.delete()

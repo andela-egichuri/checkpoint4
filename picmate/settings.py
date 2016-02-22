@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'compressor',
 ]
 
-SITE_ID = 5
+SITE_ID = 4
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
