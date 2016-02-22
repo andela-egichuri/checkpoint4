@@ -3,13 +3,12 @@ import time
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings
 from PIL import Image, ImageFilter, ImageOps, ImageEnhance
-from models import Effect
+from .models import Effect
 
 
 class EditImage:
 
     def __init__(self, image, effect):
-        # os.path.bass.path.splitext(os.path.basename(pic_path))
         self.filename = os.path.basename(image)
         self.temp = os.path.splitext(self.filename)[0]
         path = os.path.dirname(image) + '/temp/' + self.temp + '/' + str(effect)

@@ -8,9 +8,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 import json
 from django.core import serializers
 from PIL import Image
-from effects import EditImage
-from models import Picture, Effect, Edits
-from forms import ImageUploadForm
+from .effects import EditImage
+from .models import Picture, Effect, Edits
+from .forms import ImageUploadForm
 
 
 def index(request):
@@ -164,8 +164,8 @@ def save(request):
 
         if os.path.exists(temp_path):
             shutil.rmtree(temp_path)
-    except Exception, e:
-        print e
+    except Exception:
+        raise
 
     data = {'pic_name': dest, 'effect': effect}
     return HttpResponse(json.dumps(data), content_type="application/json")

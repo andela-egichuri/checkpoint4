@@ -1,5 +1,5 @@
 from django import forms
-from models import Picture
+from .models import Picture
 
 
 class ImageUploadForm(forms.ModelForm):
