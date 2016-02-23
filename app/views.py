@@ -26,15 +26,15 @@ def dashboard(request):
     """Application dashboard. """
     content = {}
     # Handle file upload
+    content['new_files'] = []
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
-        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             for afile in request.FILES.getlist('image'):
                 newimage = Picture(image=afile)
                 newimage.owner = request.user
                 newimage.save()
-            return HttpResponseRedirect('/dashboard')
+                content['new_files'].append(newimage.pk)
     else:
         form = ImageUploadForm()
     images = Picture.objects.filter(owner=request.user)
@@ -79,15 +79,6 @@ def edit(request):
     url = 'media/temp/' + edited
     data = {'url': url}
     return HttpResponse(json.dumps(data), content_type="application/json")
-
-
-def get_method(*args):
-    id_to_method = {
-        'rotate': rotate,
-        'smooth': smooth
-    }
-
-    return id_to_method
 
 
 @login_required

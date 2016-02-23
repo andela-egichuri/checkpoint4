@@ -3,7 +3,6 @@ from django.conf.urls import patterns, url, include
 from app.views import edit, save, delete, get_image
 
 urlpatterns = [
-    # url(r'', views.get_image, name='get_image'),
     url(r'^edit/$', edit, name='edit'),
     url(r'^save/$', save, name='save'),
     url(r'^delete/$', delete, name='delete'),
