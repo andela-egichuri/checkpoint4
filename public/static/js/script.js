@@ -88,7 +88,7 @@ $(document).ready(function(){
         data: { effect: effect, id:current_image}
       })
       .done(function( msg ) {
-        name = msg.url
+        name = 'media/' + msg.url
         display(name)
         effect = ""
       });
@@ -135,7 +135,7 @@ function enhance() {
     data: { effect: 'enhance', color: color, sharpness: sharpness, contrast: contrast, brightness: brightness, id:current_image}
   })
   .done(function( msg ) {
-    name = msg.url
+    name = 'media/' + msg.url
     display(name)
   });
 }

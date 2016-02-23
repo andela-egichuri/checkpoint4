@@ -76,7 +76,7 @@ def edit(request):
     elif effect_type == 'imageops':
         edited = to_apply.operations()
 
-    url = 'media/temp/' + edited
+    url = 'temp/' + edited
     data = {'url': url}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -124,7 +124,7 @@ def delete(request):
         if os.path.exists(pic_path):
             os.remove(pic_path)
         pic.delete()
-        data['status'] = 'complete'
+        data['status'] = 'delete complete'
     except:
         data['status'] = 'error'
 
@@ -137,7 +137,9 @@ def save(request):
     pic_name = request.POST['name']
     pic_parent = Picture.objects.get(id=request.POST['original'])
     effect = request.POST['effect']
-    pic = os.path.join(settings.BASE_DIR, 'public/' + pic_name)
+    if effect == '':
+        effect = 'None'
+    pic = os.path.join(settings.BASE_DIR, 'public' + pic_name)
     dir_name = settings.MEDIA_ROOT + "/edits/" + effect + "/"
     if not os.path.exists(dir_name):
             os.makedirs(dir_name)
@@ -146,13 +148,11 @@ def save(request):
     pic_path = pic_parent.image.path
     dest = dir_name + os.path.basename(par_name)
     temp_path = os.path.dirname(pic_path) + '/temp/' + os.path.splitext(par_name)[0]
-
     try:
         shutil.copy(pic, dest)
         edited = Edits()
         image_name = "/edits/" + effect + "/" + os.path.basename(dest)
         Edits.objects.update_or_create(image_name=image_name, effect=effect, parent_pic=pic_parent)
-
         if os.path.exists(temp_path):
             shutil.rmtree(temp_path)
     except Exception:

@@ -1,3 +1,4 @@
+import os
 import shutil
 import tempfile
 from django.test import TestCase
@@ -15,12 +16,6 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         """ Initialize test resources."""
-        settings._original_media_root = settings.MEDIA_ROOT
-        settings._original_file_storage = settings.DEFAULT_FILE_STORAGE
-        self._temp_media = tempfile.mkdtemp()
-        settings.MEDIA_ROOT = self._temp_media
-        settings.DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-
         self.email = fake.email()
         self.username = fake.user_name()
         self.password = fake.password()
@@ -46,11 +41,6 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         """ Free resources and do some housekeeping after tests are run."""
         del self.initial_user
-        shutil.rmtree(self._temp_media, ignore_errors=True)
-        settings.MEDIA_ROOT = settings._original_media_root
-        del settings._original_media_root
-        settings.DEFAULT_FILE_STORAGE = settings._original_file_storage
-        del settings._original_file_storage
 
     def test_index_view(self):
         """ Test the homepage view."""
@@ -87,7 +77,9 @@ class BaseTestCase(TestCase):
                 'image': fobj
             }
             up_test_after_auth = self.client.post(self.dash_url, data)
+            file_id = up_test_after_auth.context['new_files'][0]
             self.assertEqual(up_test_after_auth.status_code, 200)
+        delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
     def test_image_edit(self):
         self.client.force_login(self.initial_user)
@@ -114,6 +106,7 @@ class BaseTestCase(TestCase):
             self.assertEqual(apply_effect.status_code, 200)
             self.assertIsInstance(apply_effect.json(), dict)
             self.assertContains(apply_effect, effect)
+        delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
     def test_get_image(self):
         self.client.force_login(self.initial_user)
@@ -131,5 +124,47 @@ class BaseTestCase(TestCase):
         self.assertIsInstance(get_image.json(), dict)
         self.assertEqual(get_image.status_code, 200)
         self.assertContains(get_image, 'thumbnail')
+        delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
+    def test_image_delete(self):
+        self.client.force_login(self.initial_user)
+        with open('tests/f.jpeg', 'rb') as fobj:
+            data = {
+                'image': fobj
+            }
+            uploaded_file = self.client.post(self.dash_url, data)
+            file_id = uploaded_file.context['new_files'][0]
 
+        image_data = {
+            'id': file_id
+        }
+
+        invalid_data = {
+            'id': 12345
+        }
+
+        invalid_delete = self.client.post(reverse('delete'), invalid_data)
+        delete_image = self.client.post(reverse('delete'), image_data)
+        self.assertIsInstance(delete_image.json(), dict)
+        self.assertEqual(delete_image.status_code, 200)
+        self.assertContains(delete_image, 'delete complete')
+        self.assertContains(invalid_delete, 'error')
+        self.assertEqual(len(Picture.objects.all()), 0)
+
+    def test_image_save(self):
+        self.client.force_login(self.initial_user)
+        with open('tests/f.jpeg', 'rb') as fobj:
+            data = {
+                'image': fobj
+            }
+            uploaded_file = self.client.post(self.dash_url, data)
+            file_id = uploaded_file.context['new_files'][0]
+        image = Picture.objects.get(id=file_id)
+        apply_effect = self.client.post(reverse('edit'), {'id': file_id, 'effect': 'emboss'})
+        image_data = {
+            'name': '/static/' + image.image.url,
+            'original': file_id,
+            'effect': 'emboss'
+        }
+        save_image = self.client.post(reverse('save'), image_data)
+        delete_image = self.client.post(reverse('delete'), {'id': file_id})
