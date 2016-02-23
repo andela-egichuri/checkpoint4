@@ -14,7 +14,7 @@ from .forms import ImageUploadForm
 
 
 def index(request):
-    """Application Dashboard. """
+    """ Application landing page. """
     if request.user.is_authenticated() and request.user.is_active:
         return HttpResponseRedirect('/dashboard')
     content = {}
@@ -23,9 +23,11 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    """Application dashboard. """
+    """Application dashboard.
+
+    Displays images and effects. Also handles file upload
+    """
     content = {}
-    # Handle file upload
     content['new_files'] = []
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
@@ -48,6 +50,10 @@ def dashboard(request):
 @login_required
 @require_http_methods(["POST"])
 def edit(request):
+    """Method to handle image manipulation.
+
+    Calls the appropriate methods from the EditImage class
+    """
     id = request.POST['id']
     effect_name = request.POST['effect']
     if effect_name == 'enhance':
@@ -84,6 +90,8 @@ def edit(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 def get_image(request):
+    """Return image data when passed the image ID. """
+
     image = {}
     id = request.POST['id']
     pic = Picture.objects.get(id=id)
@@ -102,6 +110,10 @@ def get_image(request):
 @login_required
 @require_http_methods(["POST"])
 def delete(request):
+    """Perform image delete.
+
+    Deletes both the image and its data. Including effects generated.
+    """
     data = {}
     id = request.POST['id']
     try:
@@ -109,7 +121,8 @@ def delete(request):
         thumb = pic.thumbnail.path
         pic_path = pic.image.path
         pic_name = os.path.basename(pic.image.name)
-        temp_path = os.path.dirname(pic_path) + '/temp/' + os.path.splitext(pic_name)[0]
+        temp_path = os.path.dirname(pic_path) + \
+            '/temp/' + os.path.splitext(pic_name)[0]
 
         edits = Edits.objects.filter(parent_pic=pic)
         for item in edits:
@@ -125,7 +138,7 @@ def delete(request):
             os.remove(pic_path)
         pic.delete()
         data['status'] = 'delete complete'
-    except:
+    except Exception:
         data['status'] = 'error'
 
     return HttpResponse(json.dumps(data), content_type="application/json")
@@ -134,6 +147,7 @@ def delete(request):
 @login_required
 @require_http_methods(["POST"])
 def save(request):
+    """Save an image given its name and effect applied. """
     pic_name = request.POST['name']
     pic_parent = Picture.objects.get(id=request.POST['original'])
     effect = request.POST['effect']
@@ -147,12 +161,14 @@ def save(request):
     par_name = pic_parent.image.name
     pic_path = pic_parent.image.path
     dest = dir_name + os.path.basename(par_name)
-    temp_path = os.path.dirname(pic_path) + '/temp/' + os.path.splitext(par_name)[0]
+    temp_path = os.path.dirname(pic_path) + \
+        '/temp/' + os.path.splitext(par_name)[0]
     try:
         shutil.copy(pic, dest)
         edited = Edits()
         image_name = "/edits/" + effect + "/" + os.path.basename(dest)
-        Edits.objects.update_or_create(image_name=image_name, effect=effect, parent_pic=pic_parent)
+        Edits.objects.update_or_create(
+            image_name=image_name, effect=effect, parent_pic=pic_parent)
         if os.path.exists(temp_path):
             shutil.rmtree(temp_path)
     except Exception:
@@ -163,6 +179,7 @@ def save(request):
 
 
 def sizeof_fmt(num, suffix='B'):
+    """Change file size format. """
     for unit in [' ', ' K', ' M', ' G', ' T', ' Pi', ' Ei', ' Zi']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)

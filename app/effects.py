@@ -7,8 +7,10 @@ from .models import Effect
 
 
 class EditImage:
+    """ Class to perform image editing and filtering. """
 
     def __init__(self, image, effect):
+        """Initialise common class data. """
         self.filename = os.path.basename(image)
         self.temp = os.path.splitext(self.filename)[0]
         path = os.path.dirname(image) + '/temp/' + self.temp + '/' + str(effect)
@@ -22,6 +24,10 @@ class EditImage:
         self.return_path = self.temp + '/' + self.effect + '/' + os.path.basename(self.new_file)
 
     def enhancements(self, enhancement):
+        """Perform enhancements from the ImageEnhance class.
+
+        Each method returns the url for the edited image
+        """
 
         enhancer = ImageEnhance.Contrast(self.image)
         self.image = enhancer.enhance(enhancement['contrast'])
@@ -35,12 +41,15 @@ class EditImage:
         enhancer = ImageEnhance.Color(self.image)
         self.image = enhancer.enhance(enhancement['color'])
 
-        self.new_file = self.temp_dir + '/' + str(time.time()).replace('.', '') + self.filename
+        self.new_file = self.temp_dir + '/' + str(
+            time.time()).replace('.', '') + self.filename
 
         self.image.save(self.new_file)
-        return self.temp + '/' + self.effect + '/' + os.path.basename(self.new_file)
+        return self.temp + '/' + self.effect + '/' + os.path.basename(
+            self.new_file)
 
     def operations(self):
+        """Perform enhancements from the ImageOps class. """
         if self.effect == 'flip':
             to_save = ImageOps.flip(self.image)
 
@@ -52,6 +61,7 @@ class EditImage:
         return self.return_path
 
     def filters(self):
+        """Perform enhancements from the ImageFilter class. """
         if self.effect == 'smooth':
             to_save = self.image.filter(ImageFilter.SMOOTH)
         if self.effect == 'emboss':
@@ -68,6 +78,7 @@ class EditImage:
         return self.return_path
 
     def basic_effects(self):
+        """Perform enhancements from the Image class. """
         if self.effect == 'rotate':
             to_save = self.image.rotate(90)
         to_save.save(self.new_file)
