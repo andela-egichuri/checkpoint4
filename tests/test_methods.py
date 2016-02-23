@@ -12,7 +12,8 @@ from app.forms import ImageUploadForm
 fake = Factory.create()
 
 
-class BaseTestCase(TestCase):
+class PicmateTestCase(TestCase):
+    """ Test the PicMate app. """
 
     def setUp(self):
         """ Initialize test resources."""
@@ -82,6 +83,7 @@ class BaseTestCase(TestCase):
         delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
     def test_image_edit(self):
+        """ Test the file manipulation functionality. """
         self.client.force_login(self.initial_user)
         with open('tests/f.jpeg', 'rb') as fobj:
             data = {
@@ -109,6 +111,7 @@ class BaseTestCase(TestCase):
         delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
     def test_get_image(self):
+        """ Test the method to get an image given the ID. """
         self.client.force_login(self.initial_user)
         with open('tests/f.jpeg', 'rb') as fobj:
             data = {
@@ -127,6 +130,7 @@ class BaseTestCase(TestCase):
         delete_image = self.client.post(reverse('delete'), {'id': file_id})
 
     def test_image_delete(self):
+        """ Test the method to delete an image given the ID. """
         self.client.force_login(self.initial_user)
         with open('tests/f.jpeg', 'rb') as fobj:
             data = {
@@ -152,6 +156,7 @@ class BaseTestCase(TestCase):
         self.assertEqual(len(Picture.objects.all()), 0)
 
     def test_image_save(self):
+        """ Test the method to save an image. """
         self.client.force_login(self.initial_user)
         with open('tests/f.jpeg', 'rb') as fobj:
             data = {

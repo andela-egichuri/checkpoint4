@@ -198,7 +198,10 @@ function savePic() {
     $.alert({
       title: 'Done!',
       content: 'Effect Saved!',
-      backgroundDismiss: true
+      backgroundDismiss: true,
+      confirm: function(){
+        location.reload();
+    }
     });
   })
 }
