@@ -128,6 +128,8 @@
           <h3 class="panel-title">    Recent Edits</h3>
         </div>
         <div class="panel-body fixed-panel">
+        {% if edits %}
+
             {% for edit in edits %}
             <div class="col-sm-12">
               <a  href="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
@@ -136,6 +138,9 @@
               <hr>
             </div>
             {% endfor %}
+          {% else %}
+          <h3>Saved effects will appear here</h3>
+        {% endif %}
         </div>
       </div>
     </div>
