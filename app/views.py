@@ -41,8 +41,12 @@ def dashboard(request):
         form = ImageUploadForm()
     images = Picture.objects.filter(owner=request.user)
     effects = Effect.objects.all()
+    image_ids = images.values_list('id', flat=True)
+    edits = Edits.objects.filter(parent_pic__in=image_ids)
+    # import ipdb; ipdb.set_trace()
     content['images'] = images
     content['effects'] = effects
+    content['edits'] = edits
     content['form'] = form
     return render(request, 'dashboard.html', content)
 

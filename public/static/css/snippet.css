@@ -379,3 +379,8 @@ body {
   .capitalize {
     text-transform: capitalize;
   }
+
+  .fixed-panel {
+    max-height: 75vh;
+    overflow-y: scroll;
+}

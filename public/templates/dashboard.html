@@ -82,16 +82,14 @@
         </div>
       </div>
     </div>
-    <div class="saved-effects hidden">
-      Saved Effects
-    </div>
+
   </div>
   <div class="content col-sm-3">
     <div  id="preview" class="text-center">
 
     </div>
     <div id="pic-details" class="well hidden">
-    <span><h4>Original Image</h4></span>
+      <span><h4>Original Image</h4></span>
       <span id="picname" class="small dec col-sm-12"> </span>
       <span id="added" class="small dec col-sm-12"> </span>
       <span id="size" class="small dec col-sm-12"></span>
@@ -124,12 +122,25 @@
       </div>
     </div>
 
-
-
+    <div id="saved-effects" class="text-center">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">    Recent Edits</h3>
+        </div>
+        <div class="panel-body fixed-panel">
+            {% for edit in edits %}
+            <div class="col-sm-12">
+              <a  href="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
+              <img  src="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" ></a>
+              <span class="capitalize"></span>
+              <hr>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-12">
 
-  </div>
 </div>
 </div>
 
