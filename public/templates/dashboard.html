@@ -128,25 +128,25 @@
           <h3 class="panel-title">    Recent Edits</h3>
         </div>
         <div class="panel-body fixed-panel">
-        {% if edits %}
+          {% if edits %}
 
-            {% for edit in edits %}
-            <div class="col-sm-12">
-              <a  href="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
+          {% for edit in edits %}
+          <div class="col-sm-12">
+            <a  href="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
               <img  src="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" ></a>
               <span class="capitalize"></span>
               <hr>
             </div>
             {% endfor %}
-          {% else %}
-          <h3>Saved effects will appear here</h3>
-        {% endif %}
+            {% else %}
+            <h3>Saved effects will appear here</h3>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
 </div>
 
 {% endblock %}

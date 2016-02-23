@@ -8,7 +8,7 @@
 </div>
 <div id="bg" class="container">
   <div class="bootshape login-form">
-    <div class="col-sm-6 col-md-5 col-lg-4 text-center login-popup-wrap">
+    <div class="col-sm-12 col-md-5 col-lg-4 text-center login-popup-wrap">
       <div class="login-popup">
         <div class="row">
           <h1 class="title"><strong>PicMate</strong></h1>
@@ -18,9 +18,9 @@
         <div class="divider-label">Login to get started</div>
         <div class="row">
           {% load socialaccount %}
-          <a href='{% provider_login_url "facebook" method="oauth2" %}'><img src="{% static 'img/fb_login.png' %}"></a>
+          <a href='{% provider_login_url "facebook" method="oauth2" %}'><img class="img-responsive login-button" src="{% static 'img/fb_login.png' %}"></a>
           <hr>
-          <a href='{% provider_login_url "twitter" method="oauth2" %}'><img src="{% static 'img/tw_login.png' %}"></a>
+          <a href='{% provider_login_url "twitter" method="oauth2" %}'><img class="img-responsive login-button" src="{% static 'img/tw_login.png' %}"></a>
           <hr>
         </div>
       </div>

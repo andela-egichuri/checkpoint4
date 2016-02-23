@@ -45,41 +45,41 @@
                 {% if user.is_authenticated %}
                 <p class="capitalize">Hi, {{ user.get_username }}</p>
                 {% endif %}
-                </em></a>
-              </li>
-              <li>
-                <a class="dec small" href="/accounts/logout/">
-                  Log out
-                </a>
-              </li>
-            </ul>
-          </div>
+              </em></a>
+            </li>
+            <li>
+              <a class="dec small" href="/accounts/logout/">
+                Log out
+              </a>
+            </li>
+          </ul>
         </div>
-      </nav>
-      {% endblock %}
-    </header>
-    <div class="">
-      {% block content %}
+      </div>
+    </nav>
+    {% endblock %}
+  </header>
+  <div class="">
+    {% block content %}
 
-      {% endblock %}
-    </div>
-    <footer>
-      {% block footer%}
-
-
-      {% endblock%}
-    </footer>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.min.js"></script>
-
-    {% compress js %}
-    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/vendor/jquery-confirm.min.js' %}"></script>
-    <script src="{% static 'js/vendor/lightbox.js' %}"></script>
-
-    {% endcompress %}
+    {% endblock %}
+  </div>
+  <footer>
+    {% block footer%}
 
 
-  </body>
-  </html>
+    {% endblock%}
+  </footer>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.min.js"></script>
+
+  {% compress js %}
+  <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/vendor/jquery-confirm.min.js' %}"></script>
+  <script src="{% static 'js/vendor/lightbox.js' %}"></script>
+
+  {% endcompress %}
+
+
+</body>
+</html>
