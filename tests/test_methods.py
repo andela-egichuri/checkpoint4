@@ -74,7 +74,7 @@ class BaseTestCase(TestCase):
 
     def test_file_upload(self):
         """ Test the file upload functionality. """
-        with open('tests/f.jpeg') as fobj:
+        with open('tests/f.jpeg', 'rb') as fobj:
             data = {
                 'image': fobj
             }
@@ -82,7 +82,7 @@ class BaseTestCase(TestCase):
             self.assertEqual(up_test_no_auth.status_code, 302)
 
         self.client.force_login(self.initial_user)
-        with open('tests/f.jpeg') as fobj:
+        with open('tests/f.jpeg', 'rb') as fobj:
             data = {
                 'image': fobj
             }
@@ -91,7 +91,7 @@ class BaseTestCase(TestCase):
 
     def test_image_edit(self):
         self.client.force_login(self.initial_user)
-        with open('tests/f.jpeg') as fobj:
+        with open('tests/f.jpeg', 'rb') as fobj:
             data = {
                 'image': fobj
             }
@@ -114,4 +114,22 @@ class BaseTestCase(TestCase):
             self.assertEqual(apply_effect.status_code, 200)
             self.assertIsInstance(apply_effect.json(), dict)
             self.assertContains(apply_effect, effect)
+
+    def test_get_image(self):
+        self.client.force_login(self.initial_user)
+        with open('tests/f.jpeg', 'rb') as fobj:
+            data = {
+                'image': fobj
+            }
+            uploaded_file = self.client.post(self.dash_url, data)
+            file_id = uploaded_file.context['new_files'][0]
+        image_data = {
+            'id': file_id
+        }
+
+        get_image = self.client.post(reverse('image'), image_data)
+        self.assertIsInstance(get_image.json(), dict)
+        self.assertEqual(get_image.status_code, 200)
+        self.assertContains(get_image, 'thumbnail')
+
 

@@ -35,7 +35,7 @@ class EditImage:
         enhancer = ImageEnhance.Color(self.image)
         self.image = enhancer.enhance(enhancement['color'])
 
-        self.new_file = self.temp_dir + '/' + str(time.time()).translate(None, '.') + self.filename
+        self.new_file = self.temp_dir + '/' + str(time.time()).replace('.', '') + self.filename
 
         self.image.save(self.new_file)
         return self.temp + '/' + self.effect + '/' + os.path.basename(self.new_file)

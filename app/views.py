@@ -82,7 +82,7 @@ def edit(request):
 
 
 @login_required
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
 def get_image(request):
     image = {}
     id = request.POST['id']
