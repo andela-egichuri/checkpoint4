@@ -230,7 +230,7 @@ function savePic() {
       content: 'Effect Saved!',
       backgroundDismiss: true,
       confirm: function(){
-        location.reload();
+        window.location.replace("/");
     }
     });
   })
@@ -265,7 +265,7 @@ function deletepic() {
         data: { id: current_image}
       })
       .done(function( msg ) {
-        location.reload();
+        window.location.replace("/");
       });
     }
   });

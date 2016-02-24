@@ -31,7 +31,7 @@
         {% for image in images %}
         <div class="well text-center row">
           <a href="#" onclick="loadpic('{{ image.image.url }}', '{{ image.id }}')">
-            <img class="img-responsive" data-normal="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
+            <img class="thumbnail img-responsive" data-normal="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
           </a>
         </div>
         {% endfor %}
@@ -53,12 +53,12 @@
 
         <div id="picholder" class="text-center">
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-xs-12">
               <h1>Available Effects</h1>
             </div>
 
             {% for effect in effects %}
-            <div class="col-sm-3"><a href="#" ><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
+            <div class="col-xs-3"><a href="#" ><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
             {% endfor %}
           </div>
         </div>
@@ -143,7 +143,7 @@
           {% for edit in edits %}
           <div class="col-sm-12">
             <a  href="{% static 'media/' %}{{ edit.image_name }}" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
-              <img data-normal="{% static 'media/' %}{{ edit.image_name }}" class="img-responsive" ></a>
+              <img data-normal="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" ></a>
               <span class="capitalize"></span>
               <hr>
             </div>
