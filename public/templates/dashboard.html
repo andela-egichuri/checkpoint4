@@ -31,7 +31,7 @@
         {% for image in images %}
         <div class="well text-center row">
           <a href="#" onclick="loadpic('{{ image.image.url }}', '{{ image.id }}')">
-            <img class="thumbnail img-responsive" src="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
+            <img class="img-responsive" data-normal="{% static '' %}{{ image.thumbnail.url }}" alt="{{ image.image.name }}">
           </a>
         </div>
         {% endfor %}
@@ -58,33 +58,43 @@
             </div>
 
             {% for effect in effects %}
-            <div class="col-sm-3"><a href="#" ><img  src="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
+            <div class="col-sm-3"><a href="#" ><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
             {% endfor %}
           </div>
         </div>
 
         <div id="effectsholder" class="carousel slide carousel-fade  col-md-12 hidden"data-ride="carousel" data-type="multi">
-          <div class="col-sm-1">
+          <div class="col-sm-1 hidden-sm hidden-xs">
             <a class="left" href="#effectsholder" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
           </div>
           <div class="col-sm-10">
-            <div class="carousel-inner">
+            <div class="carousel-inner hidden-sm hidden-xs">
 
               {% for effect in effects %}
               <div class="item">
-                <div class="col-sm-2"><img  src="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive" id="{{ effect.name }}"><span class="capitalize">{{ effect.name }}</span></div>
+                <div class="col-sm-2"><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive" id="{{ effect.name }}"><span class="capitalize">{{ effect.name }}</span></div>
               </div>
               {% endfor %}
 
             </div>
+            <div class="hidden-md hidden-lg">
+            <select id="effectselect">
+            <option>Select One...</option>
+              {% for effect in effects %}
+              <div class="item">
+                <option value="{{ effect.name }}">{{ effect.name }}</option>
+              </div>
+              {% endfor %}
+              </select>
+            </div>
           </div>
-          <div class="col-sm-1"><a class="right" href="#effectsholder" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
+          <div class="col-sm-1 hidden-sm hidden-xs"><a class="right" href="#effectsholder" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
         </div>
       </div>
     </div>
 
   </div>
-  <div class="content col-sm-3">
+  <div class="col-sm-3">
     <div  id="preview" class="text-center">
 
     </div>
@@ -132,8 +142,8 @@
 
           {% for edit in edits %}
           <div class="col-sm-12">
-            <a  href="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
-              <img  src="{% static 'media/' %}{{ edit.image_name }}" class="thumbnail img-responsive" ></a>
+            <a  href="{% static 'media/' %}{{ edit.image_name }}" data-lightbox="edits" data-title="Effect Applied: {{ edit.effect }}" >
+              <img data-normal="{% static 'media/' %}{{ edit.image_name }}" class="img-responsive" ></a>
               <span class="capitalize"></span>
               <hr>
             </div>

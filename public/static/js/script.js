@@ -19,7 +19,15 @@ $.ajaxSetup({
    }
  }
 });
+const instance = Layzr()
 
+
+document.addEventListener('DOMContentLoaded', event => {
+  instance
+    .update()
+    .check()
+    .handlers(true)
+})
 var current_image = ""
 var active_effect = ""
 var pic_name = ""
@@ -95,6 +103,29 @@ $(document).ready(function(){
     }
   });
 
+    $("#effectselect").change(function () {
+    effect = $(this).val()
+    if (effect == 'enhance') {
+      $("#enhancements").removeClass("hidden");
+      display(pic_name)
+      active_effect = effect
+
+    } else {
+      $("#enhancements").addClass("hidden");
+      active_effect = effect
+
+      $.ajax({
+        method: "POST",
+        url: "/image/edit/",
+        data: { effect: effect, id:current_image}
+      })
+      .done(function( msg ) {
+        name = 'media/' + msg.url
+        display(name)
+        effect = ""
+      });
+    }
+  });
 
   var color_slider = $("#color_slider").slider()
   $("#color_slider").change(function(slideEvt) {
@@ -152,7 +183,6 @@ function display(name) {
   $(img).load(function(){
     $("#picholder").empty().append(img);
     $("#picholder img").addClass("thumbnail img-responsive");
-    $("#wrapper").toggleClass("toggled");
     $("#effectsholder").removeClass("hidden");
     $("#social").removeClass("hidden");
     $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + share_url);
@@ -213,6 +243,7 @@ function loadpic(name, id) {
   h = 0.7 * (vHeight - 100)
   display(name)
   getPic(id)
+  $("#wrapper").toggleClass("toggled");
 }
 
 function deletepic() {
