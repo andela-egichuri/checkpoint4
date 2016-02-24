@@ -19,14 +19,29 @@ $.ajaxSetup({
    }
  }
 });
+
+$body = $("body");
+
+$(document).on({
+  ajaxStart: function() {
+    $body.addClass("loading");
+  },
+  ajaxStop: function() {
+    progressTimer = setTimeout(function () {
+        $body.removeClass("loading");
+    }, 2000)
+
+  }
+});
+
 const instance = Layzr()
 
 
 document.addEventListener('DOMContentLoaded', event => {
   instance
-    .update()
-    .check()
-    .handlers(true)
+  .update()
+  .check()
+  .handlers(true)
 })
 var current_image = ""
 var active_effect = ""
@@ -103,7 +118,7 @@ $(document).ready(function(){
     }
   });
 
-    $("#effectselect").change(function () {
+  $("#effectselect").change(function () {
     effect = $(this).val()
     if (effect == 'enhance') {
       $("#enhancements").removeClass("hidden");
@@ -231,7 +246,7 @@ function savePic() {
       backgroundDismiss: true,
       confirm: function(){
         window.location.replace("/");
-    }
+      }
     });
   })
 }

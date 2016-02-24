@@ -1,7 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/andela-egichuri/checkpoint4/badge.svg?branch=develop)](https://coveralls.io/github/andela-egichuri/checkpoint4?branch=develop) [![Build Status](https://travis-ci.org/andela-egichuri/checkpoint4.svg?branch=develop)](https://travis-ci.org/andela-egichuri/checkpoint4) [![Code Issues](https://www.quantifiedcode.com/api/v1/project/85cca79685584a9ca2dac184ebbfbf60/snapshot/origin:develop:HEAD/badge.svg)](https://www.quantifiedcode.com/app/project/85cca79685584a9ca2dac184ebbfbf60)
 ## PicMate
 ### Application Overview
-Picmate is a Django powered photo editing application. It allows a user to perform a set of filters and effects on images he uploads.
+[Picmate](http://picmate.herokuapp.com) is a Django powered photo editing application. It allows a user to perform a set of filters and effects on images he uploads.
 A user can register or login using either Facebook or Twitter.
 
  - Framework in use: [Django](https://www.djangoproject.com/)

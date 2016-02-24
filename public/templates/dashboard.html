@@ -78,13 +78,13 @@
 
             </div>
             <div class="hidden-md hidden-lg">
-            <select id="effectselect">
-            <option>Select One...</option>
-              {% for effect in effects %}
-              <div class="item">
-                <option value="{{ effect.name }}">{{ effect.name }}</option>
-              </div>
-              {% endfor %}
+              <select id="effectselect">
+                <option>Select One...</option>
+                {% for effect in effects %}
+                <div class="item">
+                  <option value="{{ effect.name }}">{{ effect.name }}</option>
+                </div>
+                {% endfor %}
               </select>
             </div>
           </div>
