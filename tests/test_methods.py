@@ -1,6 +1,4 @@
 import os
-import shutil
-import tempfile
 from django.test import TestCase
 from django.core.urlresolvers import reverse, resolve
 from django.contrib.auth.models import User

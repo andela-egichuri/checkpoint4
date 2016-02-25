@@ -11,6 +11,6 @@ class ImageUploadForm(forms.ModelForm):
         widgets = {'image': forms.FileInput(
             attrs={
                 'class': 'form-control', 'required': True,
-                'multiple': 'multiple'
+                'multiple': 'multiple', 'id': 'img_upload'
             }
         )}

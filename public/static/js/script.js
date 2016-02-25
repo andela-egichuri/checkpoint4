@@ -27,12 +27,10 @@ $(document).on({
     $body.addClass("loading");
   },
   ajaxStop: function() {
-    progressTimer = setTimeout(function () {
-        $body.removeClass("loading");
-    }, 2000)
-
+    $body.removeClass("loading");
   }
 });
+
 
 const instance = Layzr()
 
@@ -42,12 +40,30 @@ document.addEventListener('DOMContentLoaded', event => {
   .update()
   .check()
   .handlers(true)
-})
+});
+
+document.getElementById("img_upload").onchange = function() {
+  document.getElementById("FileUpload").submit();
+}
+
 var current_image = ""
 var active_effect = ""
 var pic_name = ""
 
 $(document).ready(function(){
+
+  $(":file").filestyle({buttonName: "btn-warning",   buttonText: "Upload"});
+  $('[data-toggle="tooltip"]').tooltip();
+
+$('.dropdown').on('show.bs.dropdown', function(e){
+  $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+});
+
+
+$('.dropdown').on('hide.bs.dropdown', function(e){
+  $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+});
+
 
   $('.fb-share').click(function(e) {
     e.preventDefault();
@@ -188,7 +204,7 @@ function enhance() {
 
 function getHeight() {
   var vHeight = $(window).height();
-  h = 0.9 * (vHeight)
+  h = 0.95 * (vHeight)
   $('#content').css({"max-height":h });
 }
 
@@ -197,7 +213,7 @@ function display(name) {
   var share_url = window.location.host + {{ STATIC_URL }} + 'media/edits/' + active_effect + '/' + pic_name.replace(/^.*[\\\/]/, '')
   $(img).load(function(){
     $("#picholder").empty().append(img);
-    $("#picholder img").addClass("thumbnail img-responsive");
+    $("#picholder img").addClass("img-responsive");
     $("#effectsholder").removeClass("hidden");
     $("#social").removeClass("hidden");
     $(".fb-share").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + share_url);
@@ -216,19 +232,12 @@ function getPic(id) {
     data: { id: id}
   })
   .done(function( msg ) {
-    picname = msg.url
-    var preview = $("<img />").attr('src', '{{ STATIC_URL }}' + picname)
-    $(preview).load(function(){
-      $("#pic-details").removeClass("hidden");
-      $("#preview").empty().append(preview);
-      $("#preview img").addClass("thumbnail img-responsive");
-      $("#picname").text("Name:  " + msg.pic_name)
-      $("#added").text("Added:  " + msg.added)
-      $("#size").text("Size:  " + msg.size)
-      $("#dimensions").text("Dimensions:  " + msg.width + " x " + msg.height)
-    }).error(function () {
-      $("#preview").empty().append('Error Loading Image');
-    })
+    $("#pic-details").removeClass("hidden");
+    $("#inst").addClass("hidden");
+    $("#picname").text(msg.pic_name)
+    $("#added").text(msg.added)
+    $("#size").text(msg.size)
+    $("#dimensions").text(msg.width + " x " + msg.height)
   });
 }
 
@@ -242,7 +251,7 @@ function savePic() {
   .done(function( msg ) {
     $.alert({
       title: 'Done!',
-      content: 'Effect Saved!',
+      content: 'Effect Saved.',
       backgroundDismiss: true,
       confirm: function(){
         window.location.replace("/");

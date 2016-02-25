@@ -33,32 +33,31 @@
           <a class="navbar-brand" href="#"><h1>PicMate</h1></a>
         </div>
         <div class="collapse navbar-collapse" id="mobile-nav">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="prof-pic">
-              <img class="img-responsive img-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" />
-            </li>
-            <li>
-              <a class="navbar-text"></a>
-            </li>
-            <li>
-              <a class="small"><em>
+          <div class="nav navbar-nav navbar-right">
+            <div class="prof-pic">
+              <img class="img-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" />
+
+            </div>
+            <span class="dropdown">
                 {% if user.is_authenticated %}
-                <p class="capitalize">Hi, {{ user.get_username }}</p>
+                <a class="capitalize dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button">Hi {{ user.first_name }}<span class="caret"></span></a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                <li role="separator" class="divider"></li>
+                  <li>
+                    <a class="dec small" href="/accounts/logout/">
+                      Log out
+                    </a>
+                  </li>
+                </ul>
                 {% endif %}
-              </em></a>
-            </li>
-            <li>
-              <a class="dec small" href="/accounts/logout/">
-                Log out
-              </a>
-            </li>
-          </ul>
+              </span>
+          </div>
         </div>
       </div>
     </nav>
     {% endblock %}
   </header>
-  <div class="">
+  <div class="col-md-12">
     {% block content %}
 
     {% endblock %}
@@ -79,6 +78,7 @@
   <script src="{% static 'js/script.js' %}"></script>
   <script src="{% static 'js/vendor/jquery-confirm.min.js' %}"></script>
   <script src="{% static 'js/vendor/lightbox.js' %}"></script>
+  <script src="{% static 'js/vendor/bootstrap-filestyle.min.js' %}"></script>
 
 
   {% endcompress %}

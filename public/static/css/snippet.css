@@ -125,7 +125,7 @@ body {
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
-  margin-top: 60px;
+  padding-top: 70px;
 }
 
 #wrapper.toggled {
@@ -137,14 +137,19 @@ body {
   position: fixed;
   left: 300px;
   width: 0;
-  height: 100%;
+  /*height: 100%;*/
   margin-left: -300px;
-  overflow-y: auto;
-  background: #f8f8f8;
+  overflow-y: hidden;
+  background: #fff;
+  padding: 10px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  height: calc(100vh - 75px);
+  -webkit-box-shadow: 4px 0 2px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 4px 0 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 /*#sidebar-wrapper .glyphicon {*/
@@ -158,14 +163,15 @@ body {
   }
 
   #page-content-wrapper {
-    width: 100%;
+    /*width: 100%;*/
     position: relative;
     z-index: 2;
     float: right;
     min-height: 100%;
     overflow: auto;
     max-height: 100%;
-    height: 100%;
+    height: 100vh;
+    background: #f7f8fa;
     -webkit-transition-property: top,bottom;
     transition-property: top,bottom;
     -webkit-transition-duration: .2s,.2s;
@@ -228,12 +234,13 @@ body {
   .thumbs {
     position: relative;
     list-style: none;
-    margin: 10px 10px;
+    margin: 10px 0px;
     padding: 0 0 20px 0;
+    height: calc(100vh - 75px);
   }
 
   .thumbs > li {
-    margin: 10px 10px;
+    margin: 10px 0px;
     padding: 0;
   }
 
@@ -264,20 +271,35 @@ body {
     }
 
     #sidebar-wrapper {
-      width: 300px;
+      width: 25vw;
     }
 
     #wrapper.toggled #sidebar-wrapper {
-      width: 300px;
+      width: 25vw;
     }
 
     #page-content-wrapper {
       position: relative;
+      padding-top: auto;
     }
 
     #wrapper.toggled #page-content-wrapper {
       position: relative;
       margin-right: 0;
+    }
+    .prof-pic {
+      margin-right: 20px;
+    }
+    .prof-pic img{
+      margin-right: 50px;
+    }
+    .navbar-right .dropdown{
+      margin-top: 20px;
+      right: 100%;
+      display: block;
+    }
+    .navbar-header {
+      min-height: 60px;
     }
   }
 
@@ -294,8 +316,6 @@ body {
     }
   }
 
-
-
   nav img {
     max-height: 90%;
     position: absolute;
@@ -303,23 +323,31 @@ body {
     -moz-box-shadow:    1px 1px 6px 1px #333;
     -webkit-box-shadow: 1px 1px 6px 1px #333;
     box-shadow:         1px 1px 6px 1px #333;
+    right: 5%;
   }
 
   .navbar-nav > li > a, .navbar-brand {
     line-height: 1.5;
   }
 
-  .dec {
-    color: #337ab7 !important;
+  .desc {
     font-style: italic;
+    font-size: 0.9em;
   }
-
+  .share-text {
+    font-weight: bold;
+    font-size: 1.2em;
+    vertical-align: middle;
+  }
   .nav > li {
     position: inherit;
   }
 
   .thumbnail {
     margin-bottom: 5px;
+  }
+  #pic-details {
+    margin-top: 20px;
   }
 
   #picholder, #effectsholder, .thumbs .thumbnail {
@@ -392,12 +420,13 @@ body {
     text-transform: capitalize;
   }
 
-  .fixed-panel {
-    max-height: 75vh;
-    overflow-y: scroll;
+  #sidebar-left {
+    height: 100vh;
+    border-left: 1px solid #eeeff2;
+    padding-right: 5px;
+    padding-left: 5px;
   }
-
-.loading-modal {
+  .loading-modal {
     display:    none;
     position:   fixed;
     z-index:    1000;
@@ -406,16 +435,159 @@ body {
     height:     100%;
     width:      100%;
     background: rgba( 255, 255, 255, .8 )
-                url('../img/ajax-loader.gif')
-                50% 50%
-                no-repeat;
+    url('../img/ajax-loader.gif')
+    50% 50%
+    no-repeat;
     opacity: 0.7;
-}
+  }
 
-body.loading {
+  body.loading {
     overflow: hidden;
+  }
+
+  body.loading .loading-modal {
+    display: block;
+  }
+  #uploaded-files, #saved-effects {
+    height: 40%;
+
+  }
+  .side-pic {
+    overflow-y: scroll;
+    height: 90%;
+  }
+
+  #upload {
+    height: 13%;
+  }
+  .thumbs .h1, .thumbs .h2, .thumbs .h3, .thumbs h1, .thumbs h2, .thumbs h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .thumbs hr {
+    margin: 15px 0;
+  }
+
+  .panel, .thumbnail {
+    border-radius: 0;
+    padding: 1px;
+    margin: 5px;
+  }
+
+  .panel-heading {
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  #effectsholder {
+    padding: 10px 0;
+  }
+  .panel-body {
+    padding: 5px;
+  }
+
+  .thumbs .thumbnail {
+    max-height: 75px;
+  }
+  .slider.slider-horizontal {
+    width: 100% !important;
+  }
+
+
+/*=========================
+  Icons
+ ================= */
+
+/* footer social icons */
+ul.social-network {
+  list-style: none;
+  display: inline;
+  margin-left:0 !important;
+  padding: 0;
+  margin-top: 10px;
+}
+ul.social-network li {
+  display: inline;
+  margin: 0 5px;
 }
 
-body.loading .loading-modal {
-    display: block;
+
+/* footer social icons */
+.social-network a.icoRss:hover {
+  background-color: #F56505;
+}
+.social-network a.fb-share:hover {
+  background-color:#3B5998;
+}
+.social-network a.twitter-share-button:hover {
+  background-color:#33ccff;
+}
+.social-network a.icoGoogle:hover {
+  background-color:#BD3518;
+}
+.social-network a.icoVimeo:hover {
+  background-color:#0590B8;
+}
+.social-network a.icoLinkedin:hover {
+  background-color:#007bb7;
+}
+.social-network a.icoRss:hover i, .social-network a.fb-share:hover i, .social-network a.twitter-share-button:hover i,
+.social-network a.icoGoogle:hover i, .social-network a.icoVimeo:hover i, .social-network a.icoLinkedin:hover i {
+  color:#fff;
+}
+a.socialIcon:hover, .socialHoverClass {
+  color:#44BCDD;
+}
+
+.social-circle li a {
+  display:inline-block;
+  position:relative;
+  margin:0 auto 0 auto;
+  -moz-border-radius:50%;
+  -webkit-border-radius:50%;
+  border-radius:50%;
+  text-align:center;
+  width: 50px;
+  height: 50px;
+  font-size:20px;
+}
+.social-circle li i {
+  margin:0;
+  line-height:50px;
+  text-align: center;
+}
+
+.social-circle li a:hover i, .triggeredHover {
+  -moz-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  -ms--transform: rotate(360deg);
+  transform: rotate(360deg);
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.social-circle i {
+  color: #fff;
+  -webkit-transition: all 0.8s;
+  -moz-transition: all 0.8s;
+  -o-transition: all 0.8s;
+  -ms-transition: all 0.8s;
+  transition: all 0.8s;
+}
+
+.social-circle a {
+ background-color: #D3D3D3;
+}
+#social .btn {
+  margin: 10px 0;
+}
+#page-content-wrapper .panel {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+#inst {
+  padding-top: 30px;
 }
