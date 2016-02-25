@@ -31,7 +31,7 @@
           <hr>
         </div>
         <div  class="side-pic col-xs-12">
-        {% if images %}
+          {% if images %}
           {% for image in images %}
           <div class="col-xs-6">
             <a href="#" onclick="loadpic('{{ image.image.url }}', '{{ image.id }}')">
@@ -76,108 +76,108 @@
       <div class="panel-heading row">
         <div id="social" class="col-sm-12 hidden">
           <ul class="social-network social-circle pull-left">
-          <li class="share-text">Share</li>
-           <li><a class="fb-share" href="" onclick="savePic()" target="_blank"><i data-toggle="tooltip" data-placement="bottom" title="Facebook" class="fa fa-facebook fa-lg"></i></a></li>
-           <li><a href="https://twitter.com/share" onclick="savePic()" class="twitter-share-button" data-url="" data-text="Check this out"><i data-placement="bottom" data-toggle="tooltip" title="Twitter" class="fa fa-twitter fa-lg"></i></a></li>
-         </ul>
-         <span class="pull-right"><button onclick="savePic()" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp; Save</button></span>
-       </div>
-       <span class="hidden-lg hidden-md"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Select/Change Image</a></span>
-     </div>
-     <div id="effects" class="panel-body">
-
-      <div id="picholder" class="text-center">
-        <div class="">
-          <div class="col-xs-12">
-            <h1>Available Effects</h1>
-          </div>
-
-          {% for effect in effects %}
-          <div class="col-xs-3"><a href="#" ><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
-          {% endfor %}
+            <li class="share-text">Share</li>
+            <li><a class="fb-share" href="" onclick="savePic()" target="_blank"><i data-toggle="tooltip" data-placement="bottom" title="Facebook" class="fa fa-facebook fa-lg"></i></a></li>
+            <li><a href="https://twitter.com/share" onclick="savePic()" class="twitter-share-button" data-url="" data-text="Check this out"><i data-placement="bottom" data-toggle="tooltip" title="Twitter" class="fa fa-twitter fa-lg"></i></a></li>
+          </ul>
+          <span class="pull-right"><button onclick="savePic()" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp; Save</button></span>
         </div>
+        <span class="hidden-lg hidden-md"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Select/Change Image</a></span>
       </div>
-      <hr>
-      <div id="effectsholder" class="carousel slide carousel-fade  col-md-12 hidden"data-ride="carousel" data-type="multi">
-        <div class="col-sm-1 hidden-sm hidden-xs">
-          <a class="left" href="#effectsholder" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        </div>
-        <div class="col-sm-10">
-          <div class="carousel-inner hidden-sm hidden-xs">
+      <div id="effects" class="panel-body">
+
+        <div id="picholder" class="text-center">
+          <div class="">
+            <div class="col-xs-12">
+              <h1>Available Effects</h1>
+            </div>
 
             {% for effect in effects %}
-            <div class="item">
-              <div class="col-sm-2"><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive" id="{{ effect.name }}"><span class="capitalize">{{ effect.name }}</span></div>
-            </div>
+            <div class="col-xs-3"><a href="#" ><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive"><span class="capitalize">{{ effect.name }}</span></a></div>
             {% endfor %}
-
-          </div>
-          <div class="hidden-md hidden-lg">
-            <select id="effectselect">
-              <option>Select One...</option>
-              {% for effect in effects %}
-              <div class="item">
-                <option value="{{ effect.name }}">{{ effect.name }}</option>
-              </div>
-              {% endfor %}
-            </select>
           </div>
         </div>
-        <div class="col-sm-1 hidden-sm hidden-xs"><a class="right" href="#effectsholder" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
+        <hr>
+        <div id="effectsholder" class="carousel slide carousel-fade  col-md-12 hidden"data-ride="carousel" data-type="multi">
+          <div class="col-sm-1 hidden-sm hidden-xs">
+            <a class="left" href="#effectsholder" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+          </div>
+          <div class="col-sm-10">
+            <div class="carousel-inner hidden-sm hidden-xs">
+
+              {% for effect in effects %}
+              <div class="item">
+                <div class="col-sm-2"><img data-normal="{% static 'img/effects/' %}{{ effect.name }}.jpg" class="thumbnail img-responsive" id="{{ effect.name }}"><span class="capitalize">{{ effect.name }}</span></div>
+              </div>
+              {% endfor %}
+
+            </div>
+            <div class="hidden-md hidden-lg">
+              <select id="effectselect">
+                <option>Select One...</option>
+                {% for effect in effects %}
+                <div class="item">
+                  <option value="{{ effect.name }}">{{ effect.name }}</option>
+                </div>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-1 hidden-sm hidden-xs"><a class="right" href="#effectsholder" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
+        </div>
       </div>
     </div>
+
   </div>
-
-</div>
-<div id="sidebar-left" class="col-sm-3">
-<div id="inst" class="col-sm-12">
-<h4>No image selected</h4>
-  Please select an image or upload one
-</div>
-  <div id="pic-details" class="hidden col-sm-12">
-    <span class="text-center"><h4>Image Details</h4></span>
-    <hr>
-    <div>
-      <span class="desc col-sm-4">Name:</span><span id="picname" class="desc col-sm-8"> </span>
-      <span class="desc col-sm-4">Added:</span><span id="added" class="desc col-sm-8"> </span>
-      <span class="desc col-sm-4">Size:</span><span id="size" class="desc col-sm-8"></span>
-      <span class="desc col-sm-4">Dimensions: </span><span id="dimensions" class="desc col-sm-8"></span>
+  <div id="sidebar-left" class="col-sm-3">
+    <div id="inst" class="col-sm-12">
+      <h4>No image selected</h4>
+      Please select an image or upload one
     </div>
-
-    <div class="col-sm-12">
+    <div id="pic-details" class="hidden col-sm-12">
+      <span class="text-center"><h4>Image Details</h4></span>
       <hr>
-      <button id="delete" onclick="deletepic()" class="btn btn-sm" aria-hidden="true">Delete Image</button>
+      <div>
+        <span class="desc col-sm-4">Name:</span><span id="picname" class="desc col-sm-8"> </span>
+        <span class="desc col-sm-4">Added:</span><span id="added" class="desc col-sm-8"> </span>
+        <span class="desc col-sm-4">Size:</span><span id="size" class="desc col-sm-8"></span>
+        <span class="desc col-sm-4">Dimensions: </span><span id="dimensions" class="desc col-sm-8"></span>
+      </div>
+
+      <div class="col-sm-12">
+        <hr>
+        <button id="delete" onclick="deletepic()" class="btn btn-sm" aria-hidden="true">Delete Image</button>
+      </div>
     </div>
-  </div>
-  <div id="enhancements" class="col-sm-12 hidden text-center">
-    <hr>
-    <span><h4>Enhancements</h4></span>
-    <span class="col-sm-12">
-      <input id="color_slider" data-slider-id='color_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
-      <br/>Color
-    </span>
-    <span class="col-sm-12">
-      <input id="sharpness_slider" data-slider-id='sharp_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="20" data-slider-step="2" data-slider-value="10"/>
-      <br/>Sharpness
-    </span>
-    <span class="col-sm-12">
-      <input id="contrast_slider" data-slider-id='contrast_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
-      <br/>Contrast
-    </span>
-    <span class="col-sm-12">
-      <input id="bright_slider" data-slider-id='bright_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
-      <br/>Brightness
-    </span>
-    <div class="hidden">
-      <span id="color">10</span>
-      <span id="sharpness">10</span>
-      <span id="contrast">10</span>
-      <span id="brightness">10</span>
+    <div id="enhancements" class="col-sm-12 hidden text-center">
+      <hr>
+      <span><h4>Enhancements</h4></span>
+      <span class="col-sm-12">
+        <input id="color_slider" data-slider-id='color_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
+        <br/>Color
+      </span>
+      <span class="col-sm-12">
+        <input id="sharpness_slider" data-slider-id='sharp_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="20" data-slider-step="2" data-slider-value="10"/>
+        <br/>Sharpness
+      </span>
+      <span class="col-sm-12">
+        <input id="contrast_slider" data-slider-id='contrast_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
+        <br/>Contrast
+      </span>
+      <span class="col-sm-12">
+        <input id="bright_slider" data-slider-id='bright_level' type="text" data-slider-tooltip="hide" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
+        <br/>Brightness
+      </span>
+      <div class="hidden">
+        <span id="color">10</span>
+        <span id="sharpness">10</span>
+        <span id="contrast">10</span>
+        <span id="brightness">10</span>
+      </div>
     </div>
-  </div>
 
 
-</div>
+  </div>
 
 </div>
 </div>

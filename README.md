@@ -11,16 +11,17 @@ A user can register or login using either Facebook or Twitter.
 
 ### Installation
 
-Install Python on your system
+ * Install Python on your system
 
-Install a relational database (Postgres has been used for development and testing).
+ * Install a relational database (Postgres has been used for development and testing).
 
-Download or clone the repo
+ * Download or clone the repo
 
  * Install requirements.
 `pip install -r requirements.txt`
  * Setup environment variables
 `DATABASE_URL="postgres://<user>:<password>@localhost:5432/<db_name>"`
+
 `SECRET=<SECRET>`
 
  * Perform database migrations.

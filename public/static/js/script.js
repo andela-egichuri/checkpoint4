@@ -27,7 +27,9 @@ $(document).on({
     $body.addClass("loading");
   },
   ajaxStop: function() {
-    $body.removeClass("loading");
+    progressTimer = setTimeout(function () {
+     $body.removeClass("loading");
+   }, 2000)
   }
 });
 
@@ -55,14 +57,14 @@ $(document).ready(function(){
   $(":file").filestyle({buttonName: "btn-warning",   buttonText: "Upload"});
   $('[data-toggle="tooltip"]').tooltip();
 
-$('.dropdown').on('show.bs.dropdown', function(e){
-  $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
-});
+  $('.dropdown').on('show.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
 
 
-$('.dropdown').on('hide.bs.dropdown', function(e){
-  $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
-});
+  $('.dropdown').on('hide.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
 
 
   $('.fb-share').click(function(e) {
