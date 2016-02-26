@@ -7,8 +7,7 @@
   <div id="sidebar-wrapper" class="row text-center">
     <div class="thumbs col-xs-12">
       <div id="upload">
-        <div class="panel panel-default ">
-          <div class="panel-body">
+      <div class="col-md-8 col-md-offset-2">
             <form method="post" enctype="multipart/form-data" action="/dashboard/" id="FileUpload">
               {% csrf_token %}
               {% if form.non_field_errors%}
@@ -22,8 +21,7 @@
               </div>
 
             </form>
-          </div>
-        </div>
+            </div>
       </div>
       <div id="uploaded-files">
         <div class="col-xs-12">
@@ -77,8 +75,8 @@
         <div id="social" class="col-sm-12 hidden">
           <ul class="social-network social-circle pull-left">
             <li class="share-text">Share</li>
-            <li><a class="fb-share" href="" onclick="savePic()" target="_blank"><i data-toggle="tooltip" data-placement="bottom" title="Facebook" class="fa fa-facebook fa-lg"></i></a></li>
-            <li><a href="https://twitter.com/share" onclick="savePic()" class="twitter-share-button" data-url="" data-text="Check this out"><i data-placement="bottom" data-toggle="tooltip" title="Twitter" class="fa fa-twitter fa-lg"></i></a></li>
+            <li><a class="fb-share" href="" onclick="savePic()" target="_blank"><i data-toggle="tooltip" data-placement="bottom" title="Facebook" class="fa fa-facebook"></i></a></li>
+            <li><a href="https://twitter.com/share" onclick="savePic()" class="twitter-share-button" data-url="" data-text="Check this out"><i data-placement="bottom" data-toggle="tooltip" title="Twitter" class="fa fa-twitter"></i></a></li>
           </ul>
           <span class="pull-right"><button onclick="savePic()" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp; Save</button></span>
         </div>

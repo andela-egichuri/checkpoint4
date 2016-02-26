@@ -39,6 +39,11 @@ def dashboard(request):
                 content['new_files'].append(newimage.pk)
     else:
         form = ImageUploadForm()
+    all_images = Picture.objects.all()
+    for image in all_images:
+        if not os.path.exists(image.image.path):
+            image.delete()
+
     images = Picture.objects.filter(owner=request.user)
     effects = Effect.objects.all()
     image_ids = images.values_list('id', flat=True)

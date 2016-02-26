@@ -33,16 +33,14 @@
           <a class="navbar-brand" href="#"><h1>PicMate</h1></a>
         </div>
         <div class="collapse navbar-collapse" id="mobile-nav">
-          <div class="nav navbar-nav navbar-right">
+          <div id="profile" class="pull-right">
             <div class="prof-pic">
               <img class="img-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" />
-
             </div>
-            <span class="dropdown">
+            <div class="dropdown">
               {% if user.is_authenticated %}
               <a class="capitalize dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button">Hi {{ user.first_name }}<span class="caret"></span></a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                <li role="separator" class="divider"></li>
                 <li>
                   <a class="dec small" href="/accounts/logout/">
                     Log out
@@ -50,7 +48,7 @@
                 </li>
               </ul>
               {% endif %}
-            </span>
+            </div>
           </div>
         </div>
       </div>
